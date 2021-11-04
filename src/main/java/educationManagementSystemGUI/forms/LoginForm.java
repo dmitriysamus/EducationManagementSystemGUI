@@ -3,13 +3,26 @@ package educationManagementSystemGUI.forms;
 import educationManagementSystemGUI.cabinets.UserCabinet;
 import educationManagementSystemGUI.utils.HttpClient;
 import org.apache.http.*;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginForm extends JFrame implements ActionListener {
 
@@ -67,7 +80,7 @@ public class LoginForm extends JFrame implements ActionListener {
         LoginForm frame = new LoginForm();
         frame.setTitle("Login Form");
         frame.setVisible(true);
-        frame.setBounds(10,10,370,600);
+        frame.setBounds(10, 10, 370, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
     }
@@ -81,25 +94,28 @@ public class LoginForm extends JFrame implements ActionListener {
             userText = userTextField.getText();
             pwdText = passwordField.getText();
 
-            try {
-                String url = "http://localhost:8080/api/auth/login";
-                StringEntity params = new StringEntity(
-                        "{\"username\":\"" + userText +
-                        "\",\"password\":\"" + pwdText + "\"} ");
 
-                HttpResponse response = HttpClient.httpRequest(url, params);
+            String url = "http://localhost:8080/api/auth/login";
+            String JSON_STRING = "{\"username\":\"" + userText + "\",\"password\":\"" + pwdText + "\"} ";
+            String response = HttpClient.httpRequest(url, JSON_STRING);
 
-
-                if (null != response && response.getStatusLine().getStatusCode() == 200) {
-                    JOptionPane.showMessageDialog(this, "Login Successful");
-                    dispose();
-                    UserCabinet.showUserCabinetForm();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid Username or Password");
+            if (null != response && response.contains("Bearer")) {
+                JOptionPane.showMessageDialog(this, "Login Successful");
+                dispose();
+                Map<String, String> userMap = new HashMap<>();
+                for (int i = 0; i < 5; i++) {
+                    if (i == 3) continue;
+                        userMap.put(
+                                response.split(",")[i].split(":")[0]
+                                        .replace('"',' ').replace('{',' ').trim(),
+                                response.split(",")[i].split(":")[1]
+                                        .replace('"',' ').trim());
                 }
 
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                UserCabinet.showUserCabinetForm(
+                        userMap);
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid Username or Password");
             }
 
         }

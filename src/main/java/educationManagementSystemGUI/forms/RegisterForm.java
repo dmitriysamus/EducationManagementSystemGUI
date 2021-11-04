@@ -1,7 +1,9 @@
 package educationManagementSystemGUI.forms;
 
+import educationManagementSystemGUI.cabinets.UserCabinet;
 import educationManagementSystemGUI.utils.HttpClient;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.StringEntity;
 
 import javax.swing.*;
@@ -89,26 +91,20 @@ public class RegisterForm extends JFrame implements ActionListener {
             emailText = emailTextField.getText();
             pwdText = passwordField.getText();
 
-            try {
-                String url = "http://localhost:8080/api/auth/register";
-                StringEntity params = new StringEntity(
-                        "{\"username\":\"" + userText +
-                                "\",\"email\":\"" + emailText +
-                                "\",\"password\":\"" + pwdText + "\"} ");
-                HttpResponse response = HttpClient.httpRequest(url, params);
-
-                if (null != response && response.getStatusLine().getStatusCode() == 200) {
-                    JOptionPane.showMessageDialog(this, "Register Successful");
-                    dispose();
-                    LoginForm.showLoginForm();
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid Username or Password");
-                }
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            String url = "http://localhost:8080/api/auth/register";
+            String JSON_STRING = "{\"username\":\"" + userText +
+                    "\",\"email\":\"" + emailText +
+                    "\",\"password\":\"" + pwdText + "\"} ";
+            String response = HttpClient.httpRequest(url, JSON_STRING);
+            System.out.println(response);
+            if (null != response && response.contains("User registered successfully!")) {
+                JOptionPane.showMessageDialog(this, "Register Successful");
+                dispose();
+                LoginForm.showLoginForm();
+            } else {
+                JOptionPane.showMessageDialog(this, response.split("\"")[3]);
             }
+
         }
 
         //Coding Part of RESET button
@@ -132,7 +128,7 @@ public class RegisterForm extends JFrame implements ActionListener {
             LoginForm frame = new LoginForm();
             frame.setTitle("Login Form");
             frame.setVisible(true);
-            frame.setBounds(10,10,370,600);
+            frame.setBounds(10, 10, 370, 600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(true);
         }

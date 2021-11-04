@@ -1,16 +1,17 @@
 package educationManagementSystemGUI.cabinets;
 
 import educationManagementSystemGUI.forms.LoginForm;
+import org.apache.http.HttpEntity;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class UserCabinet extends JFrame implements ActionListener {
 
     Container container = getContentPane();
-
     JLabel userLabel = new JLabel();
     JButton showButton = new JButton("LOGOUT");
 
@@ -39,10 +40,17 @@ public class UserCabinet extends JFrame implements ActionListener {
         showButton.addActionListener(this);
     }
 
-    public static void showUserCabinetForm() {
+    public static void showUserCabinetForm(Map userMap) {
         UserCabinet frame = new UserCabinet();
+        Container container = frame.getContentPane();
+        container.setLayout(new FlowLayout());
+        JLabel label = new JLabel();
+        label.setText((String) userMap.get("username"));
+        container.add(label);
+
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
+        frame.getContentPane().add(label);
         frame.setBounds(10, 10, 370, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
