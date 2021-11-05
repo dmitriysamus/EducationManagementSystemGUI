@@ -1,16 +1,12 @@
 package educationManagementSystemGUI.forms;
 
-import educationManagementSystemGUI.cabinets.UserCabinet;
-import educationManagementSystemGUI.utils.HttpClient;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.StringEntity;
+import educationManagementSystemGUI.utils.HttpPostUtil;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class RegisterForm extends JFrame implements ActionListener {
 
@@ -90,19 +86,20 @@ public class RegisterForm extends JFrame implements ActionListener {
             userText = userTextField.getText();
             emailText = emailTextField.getText();
             pwdText = passwordField.getText();
+            String token = null;
 
             String url = "http://localhost:8080/api/auth/register";
             String JSON_STRING = "{\"username\":\"" + userText +
                     "\",\"email\":\"" + emailText +
                     "\",\"password\":\"" + pwdText + "\"} ";
-            String response = HttpClient.httpRequest(url, JSON_STRING);
-            System.out.println(response);
-            if (null != response && response.contains("User registered successfully!")) {
+            JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, token);
+
+            if (null != response && response.get("message").equals("User registered successfully!")) {
                 JOptionPane.showMessageDialog(this, "Register Successful");
                 dispose();
                 LoginForm.showLoginForm();
             } else {
-                JOptionPane.showMessageDialog(this, response.split("\"")[3]);
+                JOptionPane.showMessageDialog(this, response.get("message"));
             }
 
         }

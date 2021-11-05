@@ -1,28 +1,15 @@
 package educationManagementSystemGUI.forms;
 
+import educationManagementSystemGUI.cabinets.AdminCabinet;
+import educationManagementSystemGUI.cabinets.TeacherCabinet;
 import educationManagementSystemGUI.cabinets.UserCabinet;
-import educationManagementSystemGUI.utils.HttpClient;
-import org.apache.http.*;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
+import educationManagementSystemGUI.utils.HttpPostUtil;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginForm extends JFrame implements ActionListener {
 
@@ -93,27 +80,29 @@ public class LoginForm extends JFrame implements ActionListener {
             String pwdText;
             userText = userTextField.getText();
             pwdText = passwordField.getText();
-
+            String token = null;
 
             String url = "http://localhost:8080/api/auth/login";
             String JSON_STRING = "{\"username\":\"" + userText + "\",\"password\":\"" + pwdText + "\"} ";
-            String response = HttpClient.httpRequest(url, JSON_STRING);
+            JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, token);
 
-            if (null != response && response.contains("Bearer")) {
+            if (null != response && response.get("tokenType").equals("Bearer")) {
                 JOptionPane.showMessageDialog(this, "Login Successful");
-                dispose();
-                Map<String, String> userMap = new HashMap<>();
-                for (int i = 0; i < 5; i++) {
-                    if (i == 3) continue;
-                        userMap.put(
-                                response.split(",")[i].split(":")[0]
-                                        .replace('"',' ').replace('{',' ').trim(),
-                                response.split(",")[i].split(":")[1]
-                                        .replace('"',' ').trim());
+
+                String role = (String) response.getJSONArray("roles").get(0);
+                if (role.equals("ROLE_ADMIN")) {
+                    dispose();
+                    AdminCabinet.showCabinetForm(response, response);
+                } else if (role.equals("ROLE_TEACHER")) {
+                    dispose();
+                    TeacherCabinet.showCabinetForm(
+                            response);
+                } else if (role.equals("ROLE_USER")) {
+                    dispose();
+                    UserCabinet.showCabinetForm(
+                            response);
                 }
 
-                UserCabinet.showUserCabinetForm(
-                        userMap);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid Username or Password");
             }

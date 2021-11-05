@@ -1,56 +1,79 @@
 package educationManagementSystemGUI.cabinets;
 
-public class TeacherCabinet extends UserCabinet {
-}
+import educationManagementSystemGUI.forms.LoginForm;
+import org.json.JSONObject;
 
-///*
-//import org.apache.commons.httpclient.*;
-//import org.apache.commons.httpclient.methods.*;
-//
-//import java.awt.*;
-//
-//public class SwingClient extends javax.swing.JFrame {
-//    HttpClient client = new HttpClient();
-//
-//    public SwingClient() {
-//        initComponents();
-//    }
-//
-//    /**
-//     * Gets a page via http and displays the cookies and the page
-//     */
-//    public void testCookies() {
-//        // Sometimes the Internet is slow.
-//        this.setCursor(Cursor.WAIT_CURSOR);
-//        // We set up a GET request using the URL entered in the URL
-//        // textfield.
-//        HttpMethod method = new GetMethod(this.urlTextField.getText());
-//        try {
-//            client.executeMethod(method);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        // Set the response label to the returned value.
-//        this.responseCodeLabel.setText(method.getStatusCode() + "");
-//        // Now, we start building the text to display.
-//        StringBuffer response = new StringBuffer();
-//        // First, we loop through the currently set cookies.
-//        Cookie[] cookies = client.getState().getCookies();
-//        for (int i = 0; i < cookies.length; i++) {
-//            response.append(cookies[i].getName());
-//            response.append("=");
-//            response.append(cookies[i].getValue());
-//            response.append("\n");
-//        }
-//        response.append("================================");
-//        response.append("\n");
-//        // Next, we get the response as a String
-//        response.append(method.getResponseBodyAsString());
-//        // Finally, we display the response.
-//        this.responseText.setText(response.toString());
-//        // Some clean-up.
-//        method.releaseConnection();
-//        method.recycle();
-//        // Set the cursor back
-//        this.setCursor(Cursor.DEFAULT_CURSOR);
-//    }
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class TeacherCabinet extends JFrame implements ActionListener {
+    Container container = getContentPane();
+    JLabel userLabel = new JLabel();
+    JButton showButton = new JButton("LOGOUT");
+
+    JButton groupAddButton = new JButton("Add to Group");
+    JButton groupDropButton = new JButton("Leave Group");
+    JButton rateUserButton = new JButton("Rate user");
+
+    JButton showAllUsersButton = new JButton("Show All Users"); // при http GET запросе по адресу .../api/auth/users
+    JButton userInfoButton = new JButton("Show User Info"); // при http GET запросе по адресу .../api/auth/users/getUserInfo
+    JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
+
+    TeacherCabinet() {
+        setLayoutManager();
+        setLocationAndSize();
+        addComponentsToContainer();
+        addActionEvent();
+    }
+
+    public void setLayoutManager() {
+        container.setLayout(null);
+    }
+
+    public void setLocationAndSize() {
+        showButton.setBounds(260, 500, 100, 30);
+        userLabel.setBounds(50, 150, 100, 30);
+    }
+
+    public void addComponentsToContainer() {
+        container.add(userLabel);
+        container.add(showButton);
+    }
+
+    public void addActionEvent() {
+        showButton.addActionListener(this);
+    }
+
+    public static void showCabinetForm(JSONObject response) {
+        TeacherCabinet frame = new TeacherCabinet();
+        Container container = frame.getContentPane();
+        container.setLayout(new FlowLayout());
+        JLabel label = new JLabel();
+        label.setText((String) response.get("username"));
+        container.add(label);
+
+        frame.setTitle("Teacher Cabinet");
+        frame.setVisible(true);
+        frame.getContentPane().add(label);
+        frame.setBounds(10, 10, 370, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(true);
+    }
+
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        //Coding Part of SHOW button
+        if (e.getSource() == showButton) {
+            dispose();
+            LoginForm.showLoginForm();
+
+        }
+    }
+}

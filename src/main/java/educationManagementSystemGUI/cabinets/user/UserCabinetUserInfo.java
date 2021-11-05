@@ -1,26 +1,20 @@
-package educationManagementSystemGUI.cabinets;
+package educationManagementSystemGUI.cabinets.user;
 
 import educationManagementSystemGUI.forms.LoginForm;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
-public class UserCabinet extends JFrame implements ActionListener {
+public class UserCabinetUserInfo extends JFrame implements ActionListener {
 
     Container container = getContentPane();
     JLabel userLabel = new JLabel();
     JButton showButton = new JButton("LOGOUT");
 
-    JButton groupAddButton = new JButton("Add to Group");
-    JButton groupDropButton = new JButton("Leave Group");
-
-    JButton userInfoButton = new JButton("Show User Info"); // при http GET запросе по адресу .../api/auth/users/getUserInfo
-    JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
-
-    UserCabinet() {
+    UserCabinetUserInfo() {
         setLayoutManager();
         setLocationAndSize();
         addComponentsToContainer();
@@ -45,12 +39,12 @@ public class UserCabinet extends JFrame implements ActionListener {
         showButton.addActionListener(this);
     }
 
-    public static void showCabinetForm(JSONObject response) {
-        UserCabinet frame = new UserCabinet();
+    public static void showUserCabinetForm(Map userMap) {
+        UserCabinetUserInfo frame = new UserCabinetUserInfo();
         Container container = frame.getContentPane();
         container.setLayout(new FlowLayout());
         JLabel label = new JLabel();
-        label.setText((String) response.get("username"));
+        label.setText((String) userMap.get("username"));
         container.add(label);
 
         frame.setTitle("User Cabinet");
