@@ -96,11 +96,11 @@ public class LoginForm extends JFrame implements ActionListener {
                 } else if (role.equals("ROLE_TEACHER")) {
                     dispose();
                     TeacherCabinet.showCabinetForm(
-                            response);
+                            response, response);
                 } else if (role.equals("ROLE_USER")) {
                     dispose();
                     UserCabinet.showCabinetForm(
-                            response);
+                            response, response);
                 }
 
             } else {

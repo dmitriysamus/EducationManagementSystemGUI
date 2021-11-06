@@ -8,50 +8,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TeacherCabinet extends JFrame implements ActionListener {
-    Container container = getContentPane();
-    JLabel userLabel = new JLabel();
-    JButton showButton = new JButton("LOGOUT");
+public class TeacherCabinet extends UserCabinet {
 
-    JButton groupAddButton = new JButton("Add to Group");
-    JButton groupDropButton = new JButton("Leave Group");
-    JButton rateUserButton = new JButton("Rate user");
-
-    JButton showAllUsersButton = new JButton("Show All Users"); // при http GET запросе по адресу .../api/auth/users
-    JButton userInfoButton = new JButton("Show User Info"); // при http GET запросе по адресу .../api/auth/users/getUserInfo
-    JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
-
-    TeacherCabinet() {
-        setLayoutManager();
-        setLocationAndSize();
-        addComponentsToContainer();
-        addActionEvent();
+    TeacherCabinet(JSONObject userInfo, JSONObject response) {
+        super();
     }
 
-    public void setLayoutManager() {
-        container.setLayout(null);
-    }
-
-    public void setLocationAndSize() {
-        showButton.setBounds(260, 500, 100, 30);
-        userLabel.setBounds(50, 150, 100, 30);
-    }
-
-    public void addComponentsToContainer() {
-        container.add(userLabel);
-        container.add(showButton);
-    }
-
-    public void addActionEvent() {
-        showButton.addActionListener(this);
-    }
-
-    public static void showCabinetForm(JSONObject response) {
-        TeacherCabinet frame = new TeacherCabinet();
+    public static void showCabinetForm(JSONObject userInfo, JSONObject response) {
+        TeacherCabinet frame = new TeacherCabinet(userInfo, response);
         Container container = frame.getContentPane();
         container.setLayout(new FlowLayout());
         JLabel label = new JLabel();
-        label.setText((String) response.get("username"));
+        label.setText((String) userInfo.get("username"));
         container.add(label);
 
         frame.setTitle("Teacher Cabinet");

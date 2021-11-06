@@ -4,6 +4,7 @@ import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpPostUtil;
+import educationManagementSystemGUI.utils.HttpPutUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -25,12 +26,17 @@ public class AdminCabinet extends JFrame implements ActionListener {
 
     JButton showAllUsersButton = new JButton("Show All Users"); // при http GET запросе по адресу .../api/auth/users
     JButton userInfoButton = new JButton("Show User Info"); // при http GET запросе по адресу .../api/auth/users/getUserInfo
-//    JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
+
+    JLabel userIdEditLabel = new JLabel("User ID for edit");
+    JTextField userIdEditTextField = new JTextField();
+    JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
 
     JLabel userIdDeleteLabel = new JLabel("User ID for delete");
     JTextField userIdDeleteTextField = new JTextField();
     JButton userDeleteButton = new JButton("Delete User"); // при http DELETE запросе по адресу .../api/auth/users/{id}
-//    JButton tokenDeleteButton = new JButton("Delete old tokens"); // при http DELETE запросе по адресу .../api/auth/users/tokens - очищает базу от токенов с истекшим сроком
+
+    JTextField tokenDeleteTextField = new JTextField();
+    JButton tokenDeleteButton = new JButton("Delete old tokens"); // при http DELETE запросе по адресу .../api/auth/users/tokens - очищает базу от токенов с истекшим сроком
 
     AdminCabinet(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -52,13 +58,20 @@ public class AdminCabinet extends JFrame implements ActionListener {
 //        groupAddButton.setBounds(90, 150, 100, 30);
 //        groupCreateButton.setBounds(130, 150, 100, 30);
 //        groupDropButton.setBounds(170, 150, 100, 30);
+
         showAllUsersButton.setBounds(210, 150, 100, 30);
         userInfoButton.setBounds(250, 150, 100, 30);
-//        userInfoChangeButton.setBounds(290, 150, 100, 30);
-        userDeleteButton.setBounds(330, 150, 100, 30);
-        userIdDeleteLabel.setBounds(350, 150, 100, 30);
-        userIdDeleteTextField.setBounds(380, 350, 100, 30);
-//        tokenDeleteButton.setBounds(370, 150, 100, 30);
+
+        userIdEditLabel.setBounds(290, 90, 100, 30);
+        userIdEditTextField.setBounds(290, 200, 100, 30);
+        userInfoChangeButton.setBounds(290, 310, 100, 30);
+
+        userIdEditTextField.setBounds(330, 90, 100, 30);
+        userIdDeleteLabel.setBounds(330, 200, 100, 30);
+        userIdDeleteTextField.setBounds(330, 310, 100, 30);
+
+        tokenDeleteTextField.setBounds(350, 90, 100, 30);
+        tokenDeleteButton.setBounds(350, 150, 100, 30);
     }
 
     public void addComponentsToContainer() {
@@ -70,18 +83,26 @@ public class AdminCabinet extends JFrame implements ActionListener {
 //        container.add(groupDropButton);
         container.add(showAllUsersButton);
         container.add(userInfoButton);
-//        container.add(userInfoChangeButton);
+
+        container.add(userIdEditLabel);
+        container.add(userIdEditTextField);
+        container.add(userInfoChangeButton);
+
         container.add(userDeleteButton);
         container.add(userIdDeleteLabel);
         container.add(userIdDeleteTextField);
-//        container.add(tokenDeleteButton);
+
+        container.add(tokenDeleteTextField);
+        container.add(tokenDeleteButton);
     }
 
     public void addActionEvent() {
         showButton.addActionListener(this);
         showAllUsersButton.addActionListener(this);
         userInfoButton.addActionListener(this);
+        userInfoChangeButton.addActionListener(this);
         userDeleteButton.addActionListener(this);
+        tokenDeleteButton.addActionListener(this);
     }
 
     public static void showCabinetForm(JSONObject userInfo, JSONObject response) {
@@ -136,6 +157,27 @@ public class AdminCabinet extends JFrame implements ActionListener {
 
             String url = "http://localhost:8080/api/auth/users/" + userIdText;
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            dispose();
+            AdminCabinet.showCabinetForm(userInfo, response);
+        }
+
+        //Coding Part of Delete Token button api/auth/users/tokens
+        if (e.getSource() == tokenDeleteButton) {
+            String url = "http://localhost:8080/api/auth/users/tokens";
+            JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, response.get("message"));
+            dispose();
+            AdminCabinet.showCabinetForm(userInfo, response);
+        }
+
+        //Coding Part of Edit user Info button /api/auth/users/{id}
+        if (e.getSource() == userInfoChangeButton) {
+            String userIdText;
+            userIdText = userIdDeleteTextField.getText();
+
+            String url = "http://localhost:8080/api/auth/users/" + userIdText;
+            JSONObject response = HttpPutUtil.httpRequest(url, "", (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             AdminCabinet.showCabinetForm(userInfo, response);
         }

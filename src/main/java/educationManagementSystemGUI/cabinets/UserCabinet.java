@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 public class UserCabinet extends JFrame implements ActionListener {
 
+    JSONObject userInfo;
+    JSONObject response;
     Container container = getContentPane();
     JLabel userLabel = new JLabel();
     JButton showButton = new JButton("LOGOUT");
@@ -20,11 +22,16 @@ public class UserCabinet extends JFrame implements ActionListener {
     JButton userInfoButton = new JButton("Show User Info"); // при http GET запросе по адресу .../api/auth/users/getUserInfo
     JButton userInfoChangeButton = new JButton("Change User Info"); // при http PUT запросе по адресу .../api/auth/users/{id}
 
-    UserCabinet() {
+    UserCabinet(JSONObject userInfo, JSONObject response) {
+        this.userInfo = userInfo;
+        this.response = response;
         setLayoutManager();
         setLocationAndSize();
         addComponentsToContainer();
         addActionEvent();
+    }
+
+    UserCabinet() {
     }
 
     public void setLayoutManager() {
@@ -45,8 +52,8 @@ public class UserCabinet extends JFrame implements ActionListener {
         showButton.addActionListener(this);
     }
 
-    public static void showCabinetForm(JSONObject response) {
-        UserCabinet frame = new UserCabinet();
+    public static void showCabinetForm(JSONObject userInfo, JSONObject response) {
+        UserCabinet frame = new UserCabinet(userInfo, response);
         Container container = frame.getContentPane();
         container.setLayout(new FlowLayout());
         JLabel label = new JLabel();
