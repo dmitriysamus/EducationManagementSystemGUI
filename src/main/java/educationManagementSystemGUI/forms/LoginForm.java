@@ -85,6 +85,7 @@ public class LoginForm extends JFrame implements ActionListener {
             String url = "http://localhost:8080/api/auth/login";
             String JSON_STRING = "{\"username\":\"" + userText + "\",\"password\":\"" + pwdText + "\"} ";
             JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, token);
+            System.out.println(response);
 
             if (null != response && response.get("tokenType").equals("Bearer")) {
                 JOptionPane.showMessageDialog(this, "Login Successful");

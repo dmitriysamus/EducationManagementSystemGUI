@@ -3,7 +3,6 @@ package educationManagementSystemGUI.utils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -19,6 +18,7 @@ public class HttpPutUtil {
         JSONObject result = null;
         HttpEntity stringEntity = new StringEntity(JSON_STRING, ContentType.APPLICATION_JSON);
         HttpPut httpPut = new HttpPut(url);
+        System.out.println(stringEntity);
         httpPut.setEntity(stringEntity);
         if (null != token) {
             httpPut.setHeader("Authorization", "Bearer " + token);
@@ -29,6 +29,7 @@ public class HttpPutUtil {
         ){
             HttpEntity entity = response.getEntity();
             String stringResponse = EntityUtils.toString(entity, "UTF-8");
+            System.out.println(stringResponse);
             result = new JSONObject(stringResponse);
 
         } catch (Exception ex) {
