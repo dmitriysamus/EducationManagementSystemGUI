@@ -8,19 +8,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Класс {@link RegisterForm} отображает форму регистрации нового пользователя.
+ * Пользователи с ролями ADMIN и TEACHER через форму регистрации не создаются.
+ *
+ * @version 0.001
+ * @author habatoo
+ */
 public class RegisterForm extends JFrame implements ActionListener {
 
     Container container = getContentPane();
-    JLabel userLabel = new JLabel("USERNAME");
-    JLabel emailLabel = new JLabel("EMAIL");
-    JLabel passwordLabel = new JLabel("PASSWORD");
+    JLabel userLabel = new JLabel("Username");
+    JLabel emailLabel = new JLabel("Email");
+    JLabel passwordLabel = new JLabel("Password");
 
     JTextField userTextField = new JTextField();
     JTextField emailTextField = new JTextField();
     JPasswordField passwordField = new JPasswordField();
-    JButton registerButton = new JButton("REGISTER");
-    JButton resetButton = new JButton("RESET");
-    JButton loginButton = new JButton("LOGIN");
+    JButton registerButton = new JButton("Register");
+    JButton resetButton = new JButton("Reset");
+    JButton loginButton = new JButton("Login");
     JCheckBox showPassword = new JCheckBox("Show Password");
 
     RegisterForm() {
@@ -30,10 +37,20 @@ public class RegisterForm extends JFrame implements ActionListener {
         addActionEvent();
     }
 
+    /**
+     * Метод {@link RegisterForm#setLayoutManager}
+     * устанавливает формат  layout manager
+     * по умолчанию.
+     */
     public void setLayoutManager() {
         container.setLayout(null);
     }
 
+    /**
+     * Метод {@link RegisterForm#setLocationAndSize}
+     * ориентирует месторасположение элементов
+     * формы регистрации.
+     */
     public void setLocationAndSize() {
         userLabel.setBounds(50, 150, 100, 30);
         emailLabel.setBounds(50, 185, 100, 30);
@@ -47,6 +64,11 @@ public class RegisterForm extends JFrame implements ActionListener {
         loginButton.setBounds(250, 300, 100, 30);
     }
 
+    /**
+     * Метод {@link RegisterForm#addComponentsToContainer}
+     * добавляет элементовы формы регистрации в контейнер для
+     * отображения.
+     */
     public void addComponentsToContainer() {
         container.add(userLabel);
         container.add(emailLabel);
@@ -60,6 +82,10 @@ public class RegisterForm extends JFrame implements ActionListener {
         container.add(loginButton);
     }
 
+    /**
+     * Метод {@link RegisterForm#addActionEvent}
+     * добавляет элементовы формы для реагирования на нажатия кнопок.
+     */
     public void addActionEvent() {
         registerButton.addActionListener(this);
         resetButton.addActionListener(this);
@@ -67,15 +93,30 @@ public class RegisterForm extends JFrame implements ActionListener {
         showPassword.addActionListener(this);
     }
 
+    /**
+     * Статический метод {@link RegisterForm#showRegisterForm}
+     * создает форму регистрации для отображения.
+     */
     public static void showRegisterForm() {
         RegisterForm frame = new RegisterForm();
         frame.setTitle("Register Form");
         frame.setVisible(true);
-        frame.setBounds(10, 10, 370, 600);
+        frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
     }
 
+    /**
+     * Метод {@link RegisterForm#actionPerformed(ActionEvent)}
+     * добавляет логику обработки при нажатии
+     * кнопки регистрации {@link RegisterForm#registerButton}
+     * кнопки сброса {@link RegisterForm#resetButton}
+     * кнопки отображения пароля {@link RegisterForm#showPassword}
+     * кнопки для перехода на форму аутентификации {@link RegisterForm#loginButton}
+     * кнопки перехода на форму аутентификации {@link RegisterForm#loginButton}
+     *
+     * @param e ActionEvent событие нажатия кнопки для обработки
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         //Coding Part of REGISTER button

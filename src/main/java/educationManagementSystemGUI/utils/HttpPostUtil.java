@@ -11,8 +11,24 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+/**
+ * Класс {@link HttpPostUtil} утилита для обработки запросов
+ * метода POST.
+ *
+ * @author habatoo
+ * @version 0.001
+ */
 public class HttpPostUtil {
 
+    /**
+     * Метод {@link HttpPostUtil#httpRequest(String, String, String)}
+     * добавляет токен в заголовок запроса и принимает ответ.
+     *
+     * @param url         адрес запроса
+     * @param JSON_STRING json параметры запроса в строковом виде
+     * @param token       токен запроса в строковом виде
+     * @return возвращает JSONObject с параметрами в виде файла json
+     */
     public static JSONObject httpRequest(String url, String JSON_STRING, String token) {
 
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10 * 1000).build();
@@ -26,7 +42,7 @@ public class HttpPostUtil {
 
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
              CloseableHttpResponse response = httpClient.execute(httpPost)
-        ){
+        ) {
             HttpEntity entity = response.getEntity();
             String stringResponse = EntityUtils.toString(entity, "UTF-8");
             result = new JSONObject(stringResponse);

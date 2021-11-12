@@ -1,8 +1,8 @@
 package educationManagementSystemGUI.forms;
 
-import educationManagementSystemGUI.cabinets.AdminCabinet;
-import educationManagementSystemGUI.cabinets.TeacherCabinet;
-import educationManagementSystemGUI.cabinets.UserCabinet;
+import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
+import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
+import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
@@ -11,16 +11,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Класс {@link LoginForm} отображает форму аутентификации
+ * зарегистрированного пользователя.
+ *
+ * @author habatoo
+ * @version 0.001
+ */
 public class LoginForm extends JFrame implements ActionListener {
 
     Container container = getContentPane();
-    JLabel userLabel = new JLabel("USERNAME");
-    JLabel passwordLabel = new JLabel("PASSWORD");
+    JLabel userLabel = new JLabel("Username");
+    JLabel passwordLabel = new JLabel("Password");
     JTextField userTextField = new JTextField();
     JPasswordField passwordField = new JPasswordField();
-    JButton loginButton = new JButton("LOGIN");
-    JButton resetButton = new JButton("RESET");
-    JButton registerButton = new JButton("REGISTER");
+    JButton loginButton = new JButton("Login");
+    JButton resetButton = new JButton("Reset");
+    JButton registerButton = new JButton("Register");
     JCheckBox showPassword = new JCheckBox("Show Password");
 
     LoginForm() {
@@ -30,10 +37,20 @@ public class LoginForm extends JFrame implements ActionListener {
         addActionEvent();
     }
 
+    /**
+     * Метод {@link LoginForm#setLayoutManager}
+     * устанавливает формат  layout manager
+     * по умолчанию.
+     */
     public void setLayoutManager() {
         container.setLayout(null);
     }
 
+    /**
+     * Метод {@link LoginForm#setLocationAndSize}
+     * ориентирует месторасположение элементов
+     * формы аутентификации.
+     */
     public void setLocationAndSize() {
         userLabel.setBounds(50, 150, 100, 30);
         passwordLabel.setBounds(50, 220, 100, 30);
@@ -45,6 +62,11 @@ public class LoginForm extends JFrame implements ActionListener {
         registerButton.setBounds(250, 300, 100, 30);
     }
 
+    /**
+     * Метод {@link LoginForm#addComponentsToContainer}
+     * добавляет элементовы формы аутентификации в контейнер для
+     * отображения.
+     */
     public void addComponentsToContainer() {
         container.add(userLabel);
         container.add(passwordLabel);
@@ -56,6 +78,10 @@ public class LoginForm extends JFrame implements ActionListener {
         container.add(registerButton);
     }
 
+    /**
+     * Метод {@link LoginForm#addActionEvent}
+     * добавляет элементовы формы для реагирования на нажатия кнопок.
+     */
     public void addActionEvent() {
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
@@ -63,15 +89,29 @@ public class LoginForm extends JFrame implements ActionListener {
         showPassword.addActionListener(this);
     }
 
+    /**
+     * Статический метод {@link LoginForm#showLoginForm}
+     * создает форму аутентификации для отображения.
+     */
     public static void showLoginForm() {
         LoginForm frame = new LoginForm();
         frame.setTitle("Login Form");
         frame.setVisible(true);
-        frame.setBounds(10, 10, 370, 600);
+        frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
     }
 
+    /**
+     * Метод {@link LoginForm#actionPerformed(ActionEvent)}
+     * добавляет логику обработки при нажатии
+     * кнопки для перехода на форму регистрации {@link RegisterForm#registerButton}
+     * кнопки сброса {@link RegisterForm#resetButton}
+     * кнопки отображения пароля {@link RegisterForm#showPassword}
+     * кнопки аутентификации {@link RegisterForm#loginButton}
+     *
+     * @param e ActionEvent событие нажатия кнопки для обработки
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         //Coding Part of LOGIN button
@@ -85,7 +125,6 @@ public class LoginForm extends JFrame implements ActionListener {
             String url = "http://localhost:8080/api/auth/login";
             String JSON_STRING = "{\"username\":\"" + userText + "\",\"password\":\"" + pwdText + "\"} ";
             JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, token);
-            System.out.println(response);
 
             if (null != response && response.get("tokenType").equals("Bearer")) {
                 JOptionPane.showMessageDialog(this, "Login Successful");
