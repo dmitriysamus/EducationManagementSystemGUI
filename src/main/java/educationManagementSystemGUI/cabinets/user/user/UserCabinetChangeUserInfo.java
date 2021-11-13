@@ -1,6 +1,8 @@
-package educationManagementSystemGUI.cabinets.admin.user;
+package educationManagementSystemGUI.cabinets.user.user;
 
 import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
+import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserEdit;
+import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpPutUtil;
 import org.json.JSONObject;
@@ -11,14 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Класс {@link AdminCabinetUserEdit} отображает форму метода
- * {@link AdminCabinet#userInfoChangeButton}  пользователя с
- * ролью ADMIN.
+ * Класс {@link UserCabinetChangeUserInfo} отображает форму метода
+ * {@link UserCabinet#userInfoChangeButton}  пользователя с
+ * ролью USER.
  *
  * @author habatoo
  * @version 0.001
  */
-public class AdminCabinetUserEdit extends JFrame implements ActionListener {
+public class UserCabinetChangeUserInfo extends JFrame implements ActionListener {
 
     JSONObject userInfo;
     JSONObject response;
@@ -38,7 +40,7 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     JButton editButton = new JButton("Save edit data");
     // при http PUT запросе по адресу .../api/auth/users/{id}
 
-    public AdminCabinetUserEdit(JSONObject userInfo, JSONObject response) {
+    public UserCabinetChangeUserInfo(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
         this.response = response;
         setLayoutManager();
@@ -48,7 +50,7 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserEdit#setLayoutManager}
+     * Метод {@link UserCabinetChangeUserInfo#setLayoutManager}
      * устанавливает формат layout manager
      * по умолчанию.
      */
@@ -57,9 +59,9 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserEdit#setLocationAndSize}
+     * Метод {@link UserCabinetChangeUserInfo#setLocationAndSize}
      * ориентирует месторасположение элементов
-     * формы кабинета пользователя ADMIN.
+     * формы кабинета пользователя USER.
      */
     public void setLocationAndSize() {
         logoutButton.setBounds(10, 530, 180, 30);
@@ -78,8 +80,8 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserEdit#addComponentsToContainer}
-     * добавляет элементовы формы кабинета пользователя ADMIN
+     * Метод {@link UserCabinetChangeUserInfo#addComponentsToContainer}
+     * добавляет элементовы формы кабинета пользователя USER
      * в контейнер для отображения.
      */
     public void addComponentsToContainer() {
@@ -99,8 +101,8 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserEdit#addActionEvent}
-     * добавляет элементовы формы кабинета пользователя ADMIN
+     * Метод {@link UserCabinetChangeUserInfo#addActionEvent}
+     * добавляет элементовы формы кабинета пользователя USER
      * для реагирования на нажатия кнопок.
      */
     public void addActionEvent() {
@@ -110,16 +112,16 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Статический метод {@link AdminCabinetUserEdit#showEditUserForm(JSONObject, JSONObject)}
-     * создает форму кабинета пользователя ADMIN
+     * Статический метод {@link UserCabinetChangeUserInfo#showEditUserForm(JSONObject, JSONObject)}
+     * создает форму кабинета пользователя USER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
     public static void showEditUserForm(JSONObject userInfo, JSONObject response) {
-        AdminCabinetUserEdit frame = new AdminCabinetUserEdit(userInfo, response);
-        frame.setTitle("Admin Form");
+        UserCabinetChangeUserInfo frame = new UserCabinetChangeUserInfo(userInfo, response);
+        frame.setTitle("User Form");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -127,12 +129,12 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserEdit#actionPerformed(ActionEvent)}
+     * Метод {@link UserCabinetChangeUserInfo#actionPerformed(ActionEvent)}
      * добавляет логику обработки при нажатии
      * <p>
-     * кнопки редактирования пользователя {@link AdminCabinetUserEdit#editButton}
-     * кнопки возврата в кабинет пользователя ADMIN {@link AdminCabinetUserEdit#backButton}
-     * кнопки выхода {@link AdminCabinetUserEdit#logoutButton}
+     * кнопки редактирования пользователя {@link UserCabinetChangeUserInfo#editButton}
+     * кнопки возврата в кабинет пользователя USER {@link UserCabinetChangeUserInfo#backButton}
+     * кнопки выхода {@link UserCabinetChangeUserInfo#logoutButton}
      *
      * @param e ActionEvent событие нажатия кнопки для обработки
      */
@@ -166,7 +168,7 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
-            AdminCabinet.showCabinetForm(userInfo, response);
+            UserCabinet.showCabinetForm(userInfo, response);
         }
 
         //Coding Part of LOGOUT button

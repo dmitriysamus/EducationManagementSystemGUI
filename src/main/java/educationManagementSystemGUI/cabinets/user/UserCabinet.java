@@ -1,5 +1,11 @@
 package educationManagementSystemGUI.cabinets.user;
 
+import educationManagementSystemGUI.cabinets.user.group.UserCabinetAddMeToGroup;
+import educationManagementSystemGUI.cabinets.user.group.UserCabinetDropMeFromGroup;
+import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowAllGroups;
+import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowMyRateInGroups;
+import educationManagementSystemGUI.cabinets.user.user.UserCabinetChangeUserInfo;
+import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import org.json.JSONObject;
 
@@ -20,13 +26,25 @@ public class UserCabinet extends JFrame implements ActionListener {
     JSONObject userInfo;
     JSONObject response;
     Container container = getContentPane();
-    JLabel userLabel = new JLabel();
     JButton logoutButton = new JButton("Logout");
 
+    JLabel userLabel = new JLabel("Working with Users");
     JButton userInfoButton = new JButton("Show User Info");
     // при http GET запросе по адресу .../api/auth/users/getUserInfo
     JButton userInfoChangeButton = new JButton("Change User Info");
     // при http PUT запросе по адресу .../api/auth/users/{id}
+
+    JLabel groupLabel = new JLabel("Working with Group");
+    JButton groupShowAllGroupsButton = new JButton("Show All Groups");
+    // TODO
+    JButton groupAddStudentButton = new JButton("Add User to Group");
+    // при http POST запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
+    // TODO only user himself can add
+    JButton groupDropButton = new JButton("Delete User from Group");
+    // при http DELETE запросе по адресу .../api/auth/groups/{groupNum}
+    // TODO only user himself can add
+    JButton groupRateButton = new JButton("My Rate in Groups");
+    // TODO only user rates
 
     UserCabinet(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -56,7 +74,16 @@ public class UserCabinet extends JFrame implements ActionListener {
      */
     public void setLocationAndSize() {
         logoutButton.setBounds(10, 530, 180, 30);
-        userLabel.setBounds(50, 150, 100, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        groupShowAllGroupsButton.setBounds(10, 100, 180, 30);
+        groupAddStudentButton.setBounds(10, 150, 180, 30);
+        groupDropButton.setBounds(10, 200, 180, 30);
+        groupRateButton.setBounds(10, 250, 180, 30);
+
+        userLabel.setBounds(200, 50, 180, 30);
+        userInfoButton.setBounds(200, 100, 180, 30);
+        userInfoChangeButton.setBounds(200, 150, 180, 30);
     }
 
     /**
@@ -65,8 +92,17 @@ public class UserCabinet extends JFrame implements ActionListener {
      * в контейнер для отображения.
      */
     public void addComponentsToContainer() {
-        container.add(userLabel);
         container.add(logoutButton);
+
+        container.add(groupLabel);
+        container.add(groupShowAllGroupsButton);
+        container.add(groupAddStudentButton);
+        container.add(groupDropButton);
+        container.add(groupRateButton);
+
+        container.add(userLabel);
+        container.add(userInfoButton);
+        container.add(userInfoChangeButton);
     }
 
     /**
@@ -76,6 +112,14 @@ public class UserCabinet extends JFrame implements ActionListener {
      */
     public void addActionEvent() {
         logoutButton.addActionListener(this);
+
+        groupShowAllGroupsButton.addActionListener(this);
+        groupAddStudentButton.addActionListener(this);
+        groupDropButton.addActionListener(this);
+        groupRateButton.addActionListener(this);
+
+        userInfoButton.addActionListener(this);
+        userInfoChangeButton.addActionListener(this);
     }
 
     /**
@@ -88,15 +132,8 @@ public class UserCabinet extends JFrame implements ActionListener {
      */
     public static void showCabinetForm(JSONObject userInfo, JSONObject response) {
         UserCabinet frame = new UserCabinet(userInfo, response);
-        Container container = frame.getContentPane();
-        container.setLayout(new FlowLayout());
-        JLabel label = new JLabel();
-        label.setText((String) response.get("username"));
-        container.add(label);
-
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
-        frame.getContentPane().add(label);
         frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
@@ -112,6 +149,43 @@ public class UserCabinet extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //Coding Part of Show All Groups button
+        if (e.getSource() == groupShowAllGroupsButton) {
+            dispose();
+            UserCabinetShowAllGroups.showUserInfoForm(userInfo, response);
+        }
+
+        //Coding Part of Show All Groups button
+        if (e.getSource() == groupAddStudentButton) {
+            dispose();
+            UserCabinetAddMeToGroup.addUserToGroupForm(userInfo, response);
+        }
+
+        //Coding Part of Show All Groups button
+        if (e.getSource() == groupDropButton) {
+            dispose();
+            UserCabinetDropMeFromGroup.dropUserFromGroupForm(userInfo, response);
+        }
+
+        //Coding Part of Show My Rate in Groups button
+        if (e.getSource() == groupRateButton) {
+            dispose();
+            UserCabinetShowMyRateInGroups.showUserGroupRateForm(userInfo, response);
+        }
+
+        //Coding Part of Show User Info button
+        if (e.getSource() == userInfoButton) {
+            dispose();
+            UserCabinetShowUserInfo.showUserInfoForm(userInfo, response);
+        }
+
+        //Coding Part of Change User Info button
+        if (e.getSource() == userInfoChangeButton) {
+            dispose();
+            UserCabinetChangeUserInfo.showEditUserForm(userInfo, response);
+        }
+
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
             dispose();
