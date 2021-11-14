@@ -1,7 +1,9 @@
 package educationManagementSystemGUI.cabinets.teacher.user;
 
+import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -87,16 +89,16 @@ public class TeacherCabinetShowUserInfo extends JFrame implements ActionListener
     }
 
     /**
-     * Статический метод {@link TeacherCabinetShowUserInfo#showUserInfoForm(JSONObject, JSONObject)}
+     * Статический метод {@link TeacherCabinetShowUserInfo#showTeacherForm(JSONObject, JSONObject)}
      * создает форму кабинета пользователя USER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
-    public static void showUserInfoForm(JSONObject userInfo, JSONObject response) {
+    public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
         TeacherCabinetShowUserInfo frame = new TeacherCabinetShowUserInfo(userInfo, response);
-        frame.setTitle("User Cabinet");
+        frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,11 +120,13 @@ public class TeacherCabinetShowUserInfo extends JFrame implements ActionListener
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
-            UserCabinet.showCabinetForm(userInfo, response);
+            TeacherCabinet.showCabinetForm(userInfo, response);
         }
 
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
+            JSONObject response = HttpLogout.httpLogout( userInfo);
+            JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             LoginForm.showLoginForm();
         }

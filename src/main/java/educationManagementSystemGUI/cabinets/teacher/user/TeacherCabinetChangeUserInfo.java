@@ -1,8 +1,10 @@
 package educationManagementSystemGUI.cabinets.teacher.user;
 
 import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserEdit;
+import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpLogout;
 import educationManagementSystemGUI.utils.HttpPutUtil;
 import org.json.JSONObject;
 
@@ -111,16 +113,16 @@ public class TeacherCabinetChangeUserInfo extends JFrame implements ActionListen
     }
 
     /**
-     * Статический метод {@link TeacherCabinetChangeUserInfo#showEditUserForm(JSONObject, JSONObject)}
+     * Статический метод {@link TeacherCabinetChangeUserInfo#showTeacherForm(JSONObject, JSONObject)}
      * создает форму кабинета пользователя USER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
-    public static void showEditUserForm(JSONObject userInfo, JSONObject response) {
+    public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
         TeacherCabinetChangeUserInfo frame = new TeacherCabinetChangeUserInfo(userInfo, response);
-        frame.setTitle("User Form");
+        frame.setTitle("Teacher Form");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -167,11 +169,13 @@ public class TeacherCabinetChangeUserInfo extends JFrame implements ActionListen
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
-            UserCabinet.showCabinetForm(userInfo, response);
+            TeacherCabinet.showCabinetForm(userInfo, response);
         }
 
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
+            JSONObject response = HttpLogout.httpLogout( userInfo);
+            JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             LoginForm.showLoginForm();
         }

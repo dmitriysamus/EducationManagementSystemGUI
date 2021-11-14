@@ -2,6 +2,7 @@ package educationManagementSystemGUI.cabinets.admin.user;
 
 import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpLogout;
 import educationManagementSystemGUI.utils.HttpPutUtil;
 import org.json.JSONObject;
 
@@ -171,6 +172,8 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
 
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
+            JSONObject response = HttpLogout.httpLogout( userInfo);
+            JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             LoginForm.showLoginForm();
         }

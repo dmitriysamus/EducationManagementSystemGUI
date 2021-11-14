@@ -1,7 +1,8 @@
-package educationManagementSystemGUI.cabinets.user.group;
+package educationManagementSystemGUI.cabinets.teacher.group;
 
+import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
+import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowUserInfo;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
-import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
@@ -12,14 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Класс {@link UserCabinetShowMyRateInGroups} отображает форму метода
+ * Класс {@link TeacherCabinetShowAllRates} отображает форму метода
  * {@link UserCabinet#groupRateButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
  * @version 0.001
  */
-public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListener {
+public class TeacherCabinetShowAllRates extends JFrame implements ActionListener {
 
     JSONObject userInfo;
     JSONObject response;
@@ -27,12 +28,12 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Add User to Group");
+    JLabel userInfoLabel = new JLabel("User Info");
     JTextArea textArea = new JTextArea();
     JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // TODO
+    // при http GET запросе по адресу .../api/auth/users/getUserInfo
 
-    public UserCabinetShowMyRateInGroups(JSONObject userInfo, JSONObject response) {
+    public TeacherCabinetShowAllRates(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
         this.response = response;
         setLayoutManager();
@@ -42,7 +43,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Метод {@link UserCabinetShowMyRateInGroups#setLayoutManager}
+     * Метод {@link TeacherCabinetShowAllRates#setLayoutManager}
      * устанавливает формат layout manager
      * по умолчанию.
      */
@@ -51,7 +52,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Метод {@link UserCabinetShowMyRateInGroups#setLocationAndSize}
+     * Метод {@link TeacherCabinetShowAllRates#setLocationAndSize}
      * ориентирует месторасположение элементов
      * формы кабинета пользователя USER.
      */
@@ -65,7 +66,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Метод {@link UserCabinetShowMyRateInGroups#addComponentsToContainer}
+     * Метод {@link TeacherCabinetShowAllRates#addComponentsToContainer}
      * добавляет элементовы формы кабинета пользователя USER
      * в контейнер для отображения.
      */
@@ -79,7 +80,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Метод {@link UserCabinetShowMyRateInGroups#addActionEvent}
+     * Метод {@link TeacherCabinetShowAllRates#addActionEvent}
      * добавляет элементовы формы кабинета пользователя USER
      * для реагирования на нажатия кнопок.
      */
@@ -89,16 +90,16 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Статический метод {@link UserCabinetShowMyRateInGroups#showUserGroupRateForm(JSONObject, JSONObject)}
+     * Статический метод {@link TeacherCabinetShowAllRates#showTeacherForm(JSONObject, JSONObject)}
      * создает форму кабинета пользователя USER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
-    public static void showUserGroupRateForm(JSONObject userInfo, JSONObject response) {
-        UserCabinetShowUserInfo frame = new UserCabinetShowUserInfo(userInfo, response);
-        frame.setTitle("User Cabinet");
+    public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
+        TeacherCabinetShowUserInfo frame = new TeacherCabinetShowUserInfo(userInfo, response);
+        frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,11 +107,11 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
     }
 
     /**
-     * Метод {@link UserCabinetShowMyRateInGroups#actionPerformed(ActionEvent)}
+     * Метод {@link TeacherCabinetShowAllRates#actionPerformed(ActionEvent)}
      * добавляет логику обработки при нажатии
      * <p>
-     * кнопки возврата в кабинет пользователя USER {@link UserCabinetShowMyRateInGroups#backButton}
-     * кнопки выхода {@link UserCabinetShowMyRateInGroups#logoutButton}
+     * кнопки возврата в кабинет пользователя USER {@link TeacherCabinetShowAllRates#backButton}
+     * кнопки выхода {@link TeacherCabinetShowAllRates#logoutButton}
      *
      * @param e ActionEvent событие нажатия кнопки для обработки
      */
@@ -120,7 +121,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
-            UserCabinet.showCabinetForm(userInfo, response);
+            TeacherCabinet.showCabinetForm(userInfo, response);
         }
 
         //Coding Part of LOGOUT button
