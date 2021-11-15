@@ -11,6 +11,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Класс {@link AdminCabinetCreateGroup} отображает форму метода
+ * {@link AdminCabinet#groupAddButton}  пользователя с
+ * ролью ADMIN.
+ *
+ * @version 0.001
+ * @author habatoo, dmitriysamus
+ */
 public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
 
     JSONObject userInfo;

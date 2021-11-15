@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * ролью ADMIN.
  *
  * @version 0.001
- * @author habatoo
+ * @author habatoo, dmitriysamus
  */
 public class AdminCabinetDeleteGroup extends JFrame implements ActionListener {
 

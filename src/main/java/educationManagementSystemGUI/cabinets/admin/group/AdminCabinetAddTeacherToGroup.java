@@ -13,10 +13,10 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetAddTeacherToGroup} отображает форму метода
- * {@link AdminCabinet#groupAddButton}  пользователя с
+ * {@link AdminCabinet#addTeacherButton}  пользователя с
  * ролью ADMIN.
  *
- * @author habatoo
+ * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListener {
