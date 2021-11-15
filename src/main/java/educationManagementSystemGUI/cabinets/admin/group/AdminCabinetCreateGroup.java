@@ -54,10 +54,10 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
         backButton.setBounds(200, 530, 180, 30);
 
         groupIdLabel.setBounds(10, 100, 180, 30);
-        groupIdTextField.setBounds(10, 100, 180, 30);
+        groupIdTextField.setBounds(200, 100, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
-        groupCreateButton.setBounds(10, 100, 180, 30);
+        groupCreateButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -128,6 +128,16 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
             dispose();
             AdminCabinetCreateGroup.showCabinetForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Group created successfully!")) {
+                JOptionPane.showMessageDialog(this, "Group created successfully!" +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: Group already exists!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group already exists!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Group can't be created!");
+            }
         }
 
         //Coding Part of BACK button

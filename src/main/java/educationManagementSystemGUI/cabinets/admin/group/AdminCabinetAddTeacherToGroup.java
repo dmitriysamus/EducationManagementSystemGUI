@@ -63,12 +63,12 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
         backButton.setBounds(200, 530, 180, 30);
 
         teacherIdLabel.setBounds(10, 100, 180, 30);
-        teacherIdTextField.setBounds(10, 100, 180, 30);
-        groupIdLabel.setBounds(10, 100, 180, 30);
-        groupIdTextField.setBounds(10, 100, 180, 30);
+        teacherIdTextField.setBounds(200, 100, 180, 30);
+        groupIdLabel.setBounds(10, 150, 180, 30);
+        groupIdTextField.setBounds(200, 150, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
-        groupAddButton.setBounds(10, 100, 180, 30);
+        groupAddButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -143,6 +143,23 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
             dispose();
             AdminCabinetAddTeacherToGroup.showCabinetForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Teacher added successfully!")) {
+                JOptionPane.showMessageDialog(this, "Teacher added successfully!" +
+                        "\nTeacher id = " + teacher +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: User (teacher) does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (teacher) does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: User (teacher) has not role teacher!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (teacher) has not role teacher!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Teacher can't be added!");
+            }
         }
 
         //Coding Part of BACK button
