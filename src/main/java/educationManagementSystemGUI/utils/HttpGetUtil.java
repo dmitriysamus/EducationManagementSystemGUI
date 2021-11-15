@@ -41,10 +41,9 @@ public class HttpGetUtil {
             HttpEntity entity = response.getEntity();
             String stringResponse = EntityUtils.toString(entity, "UTF-8");
             if (stringResponse.startsWith("[") && stringResponse.endsWith("]")) {
-                stringResponse = stringResponse.substring(1, stringResponse.length() - 1);
+                stringResponse = stringResponse.replace("[", "").replace("]", "");
             }
             result = new JSONObject(stringResponse);
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

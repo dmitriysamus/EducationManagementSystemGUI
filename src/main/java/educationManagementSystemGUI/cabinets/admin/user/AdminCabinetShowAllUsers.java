@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetShowAllUsers} отображает форму метода
- * {@link AdminCabinet#showAllUsersButton}  пользователя с
+ * {@link AdminCabinet# showAllUsersButton}  пользователя с
  * ролью ADMIN.
  *
  * @author habatoo
@@ -23,14 +23,14 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
     JSONObject userInfo;
     JSONObject response;
     Container container = getContentPane();
-    JLabel userLabel = new JLabel();
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userDeleteIdIdLabel = new JLabel("User Id for delete");
-    JTextField userDeleteTextIdField = new JTextField();
-    JButton userDeleteButton = new JButton("Delete User");
-    // при http DELETE запросе по адресу .../api/auth/users/{id}
+    JLabel userLabel = new JLabel("Working with Users");
+    JLabel userListLabel = new JLabel("List of Users");
+    JTextArea userListTextArea = new JTextArea();
+    JScrollPane areaScrollPane = new JScrollPane(userListTextArea);
+    // при http GET запросе по адресу ...http://localhost:8080/api/auth/users
 
     AdminCabinetShowAllUsers(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -51,7 +51,7 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
     }
 
     /**
-     * Метод {@link AdminCabinetUserDelete#setLocationAndSize}
+     * Метод {@link AdminCabinetShowAllUsers#setLocationAndSize}
      * ориентирует месторасположение элементов
      * формы кабинета пользователя ADMIN.
      */
@@ -59,10 +59,10 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        // TODO
-        userDeleteIdIdLabel.setBounds(50, 100, 100, 30);
-        userDeleteTextIdField.setBounds(150, 100, 150, 30);
-        userDeleteButton.setBounds(350, 150, 100, 30);
+        userLabel.setBounds(10, 50, 180, 30);
+        userListLabel.setBounds(10, 100, 180, 30);
+        userListTextArea.setBounds(10, 150, 350, 150);
+        areaScrollPane.setBounds(10, 150, 350, 150);
     }
 
     /**
@@ -75,9 +75,9 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
         container.add(backButton);
 
         container.add(userLabel);
-        container.add(userDeleteIdIdLabel);
-        container.add(userDeleteTextIdField);
-        container.add(userDeleteButton);
+        container.add(userListLabel);
+        container.add(userListTextArea);
+        container.add(areaScrollPane);
     }
 
     /**
@@ -88,8 +88,6 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
-
-        userDeleteButton.addActionListener(this);
     }
 
     /**
@@ -101,7 +99,14 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
      * @param response JSONObject
      */
     public static void showAllUserForm(JSONObject userInfo, JSONObject response) {
-        AdminCabinetUserDelete frame = new AdminCabinetUserDelete(userInfo, response);
+        AdminCabinetShowAllUsers frame = new AdminCabinetShowAllUsers(userInfo, response);
+
+        Container container = frame.getContentPane();
+        container.setLayout(new BorderLayout());
+        JLabel label = new JLabel();
+        label.setText((String) response.get("username"));
+        container.add(label, BorderLayout.CENTER);
+
         frame.setTitle("Admin Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
