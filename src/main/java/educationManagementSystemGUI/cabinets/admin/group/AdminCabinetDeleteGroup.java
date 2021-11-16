@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * ролью ADMIN.
  *
  * @version 0.001
- * @author habatoo
+ * @author habatoo, dmitriysamus
  */
 public class AdminCabinetDeleteGroup extends JFrame implements ActionListener {
 
@@ -63,10 +63,10 @@ public class AdminCabinetDeleteGroup extends JFrame implements ActionListener {
 
         userLabel.setBounds(10, 50, 180, 30);
         groupIdLabel.setBounds(10, 100, 180, 30);
-        groupIdTextField.setBounds(10, 100, 180, 30);
+        groupIdTextField.setBounds(200, 100, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
-        groupDropButton.setBounds(10, 100, 180, 30);
+        groupDropButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -138,6 +138,16 @@ public class AdminCabinetDeleteGroup extends JFrame implements ActionListener {
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
             dispose();
             AdminCabinetDeleteGroup.showCabinetForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Group deleted successfully!")) {
+                JOptionPane.showMessageDialog(this, "Group deleted successfully!" +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Group can't be deleted!");
+            }
         }
 
         //Coding Part of BACK button

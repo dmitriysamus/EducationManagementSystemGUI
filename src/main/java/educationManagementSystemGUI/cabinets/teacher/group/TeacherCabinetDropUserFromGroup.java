@@ -4,7 +4,9 @@ import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
 import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowUserInfo;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
+import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -28,10 +30,13 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("User Info");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // при http GET запросе по адресу .../api/auth/users/getUserInfo
+    JLabel userIdLabel = new JLabel("User Id");
+    JTextField userIdTextField = new JTextField();
+    JLabel groupIdLabel = new JLabel("Group Id");
+    JTextField groupIdTextField = new JTextField();
+    JLabel groupLabel = new JLabel("Working with Group");
+    JButton userDeleteButton = new JButton("Delete User from Group");
+    // при http DELETE запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
 
     public TeacherCabinetDropUserFromGroup(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -60,9 +65,13 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        userIdLabel.setBounds(10, 100, 180, 30);
+        userIdTextField.setBounds(200, 100, 180, 30);
+        groupIdLabel.setBounds(10, 150, 180, 30);
+        groupIdTextField.setBounds(200, 150, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        userDeleteButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -74,9 +83,13 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(userIdLabel);
+        container.add(userIdTextField);
+        container.add(groupIdLabel);
+        container.add(groupIdTextField);
+
+        container.add(groupLabel);
+        container.add(userDeleteButton);
     }
 
     /**
@@ -87,18 +100,20 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        userDeleteButton.addActionListener(this);
     }
 
     /**
      * Статический метод {@link TeacherCabinetDropUserFromGroup#showTeacherForm(JSONObject, JSONObject)}
-     * создает форму кабинета пользователя USER
+     * создает форму кабинета пользователя TEACHER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
     public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
-        TeacherCabinetShowUserInfo frame = new TeacherCabinetShowUserInfo(userInfo, response);
+        TeacherCabinetDropUserFromGroup frame = new TeacherCabinetDropUserFromGroup(userInfo, response);
         frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +132,34 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //Coding Part of Delete User from Group button /api/auth/groups/students/{groupNum}/{studentId}
+        if (e.getSource() == userDeleteButton) {
+            String groupNum;
+            String student;
+            groupNum = groupIdTextField.getText();
+            student = userIdTextField.getText();
+            String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
+
+            // TODO JSON to DELETE
+            JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetDropUserFromGroup.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Student deleted successfully!")) {
+                JOptionPane.showMessageDialog(this, "Student deleted successfully!" +
+                        "\nUser id = " + student +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: User (user) does not exist in the group!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (user) does not exist in the group!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Student can't be deleted!");
+            }
+        }
 
         //Coding Part of BACK button
         if (e.getSource() == backButton) {

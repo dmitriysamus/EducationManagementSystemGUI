@@ -11,6 +11,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Класс {@link AdminCabinetCreateGroup} отображает форму метода
+ * {@link AdminCabinet#groupAddButton}  пользователя с
+ * ролью ADMIN.
+ *
+ * @version 0.001
+ * @author habatoo, dmitriysamus
+ */
 public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
 
     JSONObject userInfo;
@@ -55,10 +63,10 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
 
         userLabel.setBounds(10, 50, 180, 30);
         groupIdLabel.setBounds(10, 100, 180, 30);
-        groupIdTextField.setBounds(10, 100, 180, 30);
+        groupIdTextField.setBounds(200, 100, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
-        groupCreateButton.setBounds(10, 100, 180, 30);
+        groupCreateButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -130,6 +138,16 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
             dispose();
             AdminCabinetCreateGroup.showCabinetForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Group created successfully!")) {
+                JOptionPane.showMessageDialog(this, "Group created successfully!" +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: Group already exists!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group already exists!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Group can't be created!");
+            }
         }
 
         //Coding Part of BACK button

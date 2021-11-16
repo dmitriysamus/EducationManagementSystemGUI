@@ -1,10 +1,13 @@
 package educationManagementSystemGUI.cabinets.teacher.lesson;
 
 import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
+import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetDropUserFromGroup;
 import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllUsers;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
+import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -17,7 +20,7 @@ import java.awt.event.ActionListener;
  * {@link UserCabinet#createLessonButton}  пользователя с
  * ролью USER.
  *
- * @author habatoo
+ * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class TeacherCabinetCreateLesson extends JFrame implements ActionListener {
@@ -28,10 +31,14 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Al Users Info");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // TODO
+    JLabel groupIdLabel = new JLabel("Group Id");
+    JTextField groupIdTextField = new JTextField();
+    JLabel lessonLabel = new JLabel("Lesson name");
+    JTextField lessonTextField = new JTextField();
+
+    JLabel groupLabel = new JLabel("Working with Group");
+    JButton createLessonButton = new JButton("Create Lesson");
+    // при http POST запросе по адресу .../api/auth/groups/{groupNum}/lesson
 
     public TeacherCabinetCreateLesson(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -60,9 +67,13 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        groupIdLabel.setBounds(10, 100, 180, 30);
+        groupIdTextField.setBounds(200, 100, 180, 30);
+        lessonLabel.setBounds(10, 150, 180, 30);
+        lessonTextField.setBounds(200, 150, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        createLessonButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -74,9 +85,13 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(groupIdLabel);
+        container.add(groupIdTextField);
+        container.add(lessonLabel);
+        container.add(lessonTextField);
+
+        container.add(groupLabel);
+        container.add(createLessonButton);
     }
 
     /**
@@ -87,6 +102,8 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        createLessonButton.addActionListener(this);
     }
 
     /**
@@ -98,7 +115,7 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
      * @param response JSONObject
      */
     public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
-        TeacherCabinetShowAllUsers frame = new TeacherCabinetShowAllUsers(userInfo, response);
+        TeacherCabinetCreateLesson frame = new TeacherCabinetCreateLesson(userInfo, response);
         frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +134,34 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //Coding Part of Create Lesson button /api/auth/groups/{groupNum}/lesson
+        if (e.getSource() == createLessonButton) {
+            String groupNum;
+            String lesson;
+            groupNum = groupIdTextField.getText();
+            lesson = lessonTextField.getText();
+            String JSON_STRING = "{\"name\":\"" + lesson + "\"} ";
+            String url = "http://localhost:8080/api/auth/groups/" + groupNum + "/lesson";
+
+            JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetCreateLesson.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Lesson created successfully!")) {
+                JOptionPane.showMessageDialog(this, "Lesson created successfully!" +
+                        "\nGroup id = " + groupNum +
+                        "\nLesson name = " + lesson);
+            } else if (null != response && response.get("message").equals("Error: Lesson exists in the group!")) {
+                JOptionPane.showMessageDialog(this, "Error: Lesson exists in the group!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Lesson can't be created!");
+            }
+        }
 
         //Coding Part of BACK button
         if (e.getSource() == backButton) {

@@ -5,6 +5,7 @@ import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllU
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
+import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ import java.awt.event.ActionListener;
  * {@link UserCabinet#rateStudentInLessonButton}  пользователя с
  * ролью USER.
  *
- * @author habatoo
+ * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class TeacherCabinetRateUserInLesson extends JFrame implements ActionListener {
@@ -28,10 +29,16 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Al Users Info");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // TODO
+    JLabel lessonIdLabel = new JLabel("Lesson Id");
+    JTextField lessonIdTextField = new JTextField();
+    JLabel studentIdLabel = new JLabel("Student id");
+    JTextField studentIdTextField = new JTextField();
+    JLabel gradeLabel = new JLabel("Grade");
+    JTextField gradeTextField = new JTextField();
+
+    JLabel groupLabel = new JLabel("Working with Group");
+    JButton rateUserButton = new JButton("Rate User");
+    // при http POST запросе по адресу .../api/auth/groups/rate/{lessonId}
 
     public TeacherCabinetRateUserInLesson(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -60,9 +67,15 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        lessonIdLabel.setBounds(10, 100, 180, 30);
+        lessonIdTextField.setBounds(200, 100, 180, 30);
+        studentIdLabel.setBounds(10, 150, 180, 30);
+        studentIdTextField.setBounds(200, 150, 180, 30);
+        gradeLabel.setBounds(10, 200, 180, 30);
+        gradeTextField.setBounds(200, 200, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        rateUserButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -74,9 +87,15 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(lessonIdLabel);
+        container.add(lessonIdTextField);
+        container.add(studentIdLabel);
+        container.add(studentIdTextField);
+        container.add(gradeLabel);
+        container.add(gradeTextField);
+
+        container.add(groupLabel);
+        container.add(rateUserButton);
     }
 
     /**
@@ -87,6 +106,8 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        rateUserButton.addActionListener(this);
     }
 
     /**
@@ -98,7 +119,7 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
      * @param response JSONObject
      */
     public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
-        TeacherCabinetShowAllUsers frame = new TeacherCabinetShowAllUsers(userInfo, response);
+        TeacherCabinetRateUserInLesson frame = new TeacherCabinetRateUserInLesson(userInfo, response);
         frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +138,40 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //Coding Part of Rate Student button /api/auth/groups/rate/{lessonId}
+        if (e.getSource() == rateUserButton) {
+            String lessonNum;
+            String studentId;
+            String grade;
+            lessonNum = lessonIdTextField.getText();
+            studentId = studentIdTextField.getText();
+            grade = gradeTextField.getText();
+
+            String JSON_STRING = "{\"grade\":\"" + grade + "\",\"student\":\"" + studentId + "\"} ";
+            String url = "http://localhost:8080/api/auth/groups/rate/" + lessonNum;
+
+            JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetRateUserInLesson.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Student rated successfully!")) {
+                JOptionPane.showMessageDialog(this, "Student rated successfully!" +
+                        "\nLesson id = " + lessonNum +
+                        "\nStudent id = " + studentId +
+                        "\nGrade = " + grade);
+            } else if (null != response && response.get("message").equals("Error: Lesson does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Lesson does not exist!");
+            } else if (null != response && response.get("message").equals("Error: User does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: User does not exist!");
+            } else if (null != response && response.get("message").equals("Error: Student does not exists in the group!")) {
+                JOptionPane.showMessageDialog(this, "Error: Student does not exists in the group!");
+            } else if (null != response && response.get("message").equals("Error: Incorrect grade!")) {
+                JOptionPane.showMessageDialog(this, "Error: Incorrect grade!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Student can't be rated!");
+            }
+        }
 
         //Coding Part of BACK button
         if (e.getSource() == backButton) {

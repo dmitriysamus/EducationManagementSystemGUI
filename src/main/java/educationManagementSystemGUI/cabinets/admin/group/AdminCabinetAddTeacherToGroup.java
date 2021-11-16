@@ -16,10 +16,11 @@ import java.awt.event.ActionListener;
  * {@link AdminCabinet# groupAddButton}  пользователя с
  * ролью ADMIN.
  *
- * @author habatoo
+ * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListener {
+
     JSONObject userInfo;
     JSONObject response;
     Container container = getContentPane();
@@ -69,7 +70,7 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
         groupIdTextField.setBounds(200, 150, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
-        groupAddButton.setBounds(10, 100, 180, 30);
+        groupAddButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -145,6 +146,23 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
             dispose();
             AdminCabinetAddTeacherToGroup.showCabinetForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Teacher added successfully!")) {
+                JOptionPane.showMessageDialog(this, "Teacher added successfully!" +
+                        "\nTeacher id = " + teacher +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: User (teacher) does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (teacher) does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: User (teacher) has not role teacher!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (teacher) has not role teacher!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Teacher can't be added!");
+            }
         }
 
         //Coding Part of BACK button
