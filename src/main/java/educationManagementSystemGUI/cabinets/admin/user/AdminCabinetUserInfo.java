@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetShowAllUsers} отображает форму метода
- * {@link AdminCabinet#userInfoButton}  пользователя с
+ * {@link AdminCabinet# userInfoButton}  пользователя с
  * ролью ADMIN.
  *
  * @author habatoo
@@ -26,6 +26,7 @@ public class AdminCabinetUserInfo extends JFrame implements ActionListener {
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
+    JLabel userLabel = new JLabel("Working with Users");
     JLabel userInfoLabel = new JLabel("User Info");
     JTextArea textArea = new JTextArea();
     JScrollPane areaScrollPane = new JScrollPane(textArea);
@@ -58,9 +59,10 @@ public class AdminCabinetUserInfo extends JFrame implements ActionListener {
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        userLabel.setBounds(10, 50, 180, 30);
+        userInfoLabel.setBounds(10, 100, 180, 30);
+        textArea.setBounds(10, 150, 350, 150);
+        areaScrollPane.setBounds(10, 150, 350, 150);
     }
 
     /**
@@ -72,6 +74,7 @@ public class AdminCabinetUserInfo extends JFrame implements ActionListener {
         container.add(logoutButton);
         container.add(backButton);
 
+        container.add(userLabel);
         container.add(userInfoLabel);
         container.add(textArea);
         container.add(areaScrollPane);
@@ -96,7 +99,7 @@ public class AdminCabinetUserInfo extends JFrame implements ActionListener {
      * @param response JSONObject
      */
     public static void showUserInfoForm(JSONObject userInfo, JSONObject response) {
-        AdminCabinetUserDelete frame = new AdminCabinetUserDelete(userInfo, response);
+        AdminCabinetUserInfo frame = new AdminCabinetUserInfo(userInfo, response);
         frame.setTitle("Admin Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);

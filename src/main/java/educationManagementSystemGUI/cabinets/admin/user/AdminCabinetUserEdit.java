@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetUserEdit} отображает форму метода
- * {@link AdminCabinet#userInfoChangeButton}  пользователя с
+ * {@link AdminCabinet# userInfoChangeButton}  пользователя с
  * ролью ADMIN.
  *
  * @author habatoo
@@ -27,7 +27,9 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     JButton backButton = new JButton("Back");
 
     Container container = getContentPane();
-    JLabel userLabel = new JLabel("Edit User Info");
+
+    JLabel userLabel = new JLabel("Working with Users");
+    JLabel userEditLabel = new JLabel("Edit User Info");
     JLabel userEditIdIdLabel = new JLabel("User Id for edit");
     JTextField userEditTextIdField = new JTextField();
     JLabel userEditNameLabel = new JLabel("User name for edit");

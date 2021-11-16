@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetUserDelete} отображает форму метода
- * {@link AdminCabinet#userDeleteButton}  пользователя с
+ * {@link AdminCabinet# userDeleteButton}  пользователя с
  * ролью ADMIN.
  *
  * @author habatoo
@@ -24,10 +24,10 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
     JSONObject userInfo;
     JSONObject response;
     Container container = getContentPane();
-    JLabel userLabel = new JLabel();
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
+    JLabel userLabel = new JLabel("Working with Users");
     JLabel userDeleteIdIdLabel = new JLabel("User Id for delete");
     JTextField userDeleteTextIdField = new JTextField();
     JButton userDeleteButton = new JButton("Delete User");
@@ -60,10 +60,10 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        // TODO
-        userDeleteIdIdLabel.setBounds(50, 100, 100, 30);
-        userDeleteTextIdField.setBounds(150, 100, 150, 30);
-        userDeleteButton.setBounds(350, 150, 100, 30);
+        userLabel.setBounds(10, 50, 180, 30);
+        userDeleteIdIdLabel.setBounds(10, 100, 180, 30);
+        userDeleteTextIdField.setBounds(200, 100, 180, 30);
+        userDeleteButton.setBounds(10, 150, 180, 30);
     }
 
     /**

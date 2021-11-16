@@ -27,6 +27,7 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
+    JLabel userLabel = new JLabel("Working with Users");
     JLabel groupIdLabel = new JLabel("Group Id");
     JTextField groupIdTextField = new JTextField();
     JLabel groupLabel = new JLabel("Working with Group");
@@ -57,10 +58,10 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
      * формы кабинета пользователя ADMIN.
      */
     public void setLocationAndSize() {
-        // TODO
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
+        userLabel.setBounds(10, 50, 180, 30);
         groupIdLabel.setBounds(10, 100, 180, 30);
         groupIdTextField.setBounds(200, 100, 180, 30);
 
@@ -77,6 +78,7 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
         container.add(logoutButton);
         container.add(backButton);
 
+        container.add(userLabel);
         container.add(groupIdLabel);
         container.add(groupIdTextField);
 
