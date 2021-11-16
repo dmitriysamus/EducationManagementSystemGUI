@@ -13,13 +13,14 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link AdminCabinetAddTeacherToGroup} отображает форму метода
- * {@link AdminCabinet#addTeacherButton}  пользователя с
+ * {@link AdminCabinet#groupAddButton}  пользователя с
  * ролью ADMIN.
  *
  * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListener {
+
     JSONObject userInfo;
     JSONObject response;
     Container container = getContentPane();
@@ -58,7 +59,6 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
      * формы кабинета пользователя ADMIN.
      */
     public void setLocationAndSize() {
-        // TODO
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 

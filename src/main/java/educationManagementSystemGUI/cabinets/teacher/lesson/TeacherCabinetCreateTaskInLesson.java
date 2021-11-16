@@ -5,6 +5,7 @@ import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllU
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
+import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ import java.awt.event.ActionListener;
  * {@link UserCabinet#createTaskInLessonButton}  пользователя с
  * ролью USER.
  *
- * @author habatoo
+ * @author habatoo, dmitriysamus
  * @version 0.001
  */
 public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionListener {
@@ -28,10 +29,14 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Al Users Info");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // TODO
+    JLabel lessonIdLabel = new JLabel("Lesson Id");
+    JTextField lessonIdTextField = new JTextField();
+    JLabel taskLabel = new JLabel("Task name");
+    JTextField taskTextField = new JTextField();
+
+    JLabel groupLabel = new JLabel("Working with Group");
+    JButton createTaskButton = new JButton("Create Task");
+    // при http POST запросе по адресу .../api/auth/groups/lessons/{lessonId}
 
     public TeacherCabinetCreateTaskInLesson(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -60,9 +65,13 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        lessonIdLabel.setBounds(10, 100, 180, 30);
+        lessonIdTextField.setBounds(200, 100, 180, 30);
+        taskLabel.setBounds(10, 150, 180, 30);
+        taskTextField.setBounds(200, 150, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        createTaskButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -74,9 +83,13 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(lessonIdLabel);
+        container.add(lessonIdTextField);
+        container.add(taskLabel);
+        container.add(taskTextField);
+
+        container.add(groupLabel);
+        container.add(createTaskButton);
     }
 
     /**
@@ -87,6 +100,8 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        createTaskButton.addActionListener(this);
     }
 
     /**
@@ -98,7 +113,7 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
      * @param response JSONObject
      */
     public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
-        TeacherCabinetShowAllUsers frame = new TeacherCabinetShowAllUsers(userInfo, response);
+        TeacherCabinetCreateTaskInLesson frame = new TeacherCabinetCreateTaskInLesson(userInfo, response);
         frame.setTitle("Teacher Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +132,30 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //Coding Part of Create Lesson button /api/auth/groups/lessons/{lessonId}
+        if (e.getSource() == createTaskButton) {
+            String lessonNum;
+            String task;
+            lessonNum = lessonIdTextField.getText();
+            task = taskTextField.getText();
+            String JSON_STRING = "{\"name\":\"" + task + "\"} ";
+            String url = "http://localhost:8080/api/auth/groups/lessons/" + lessonNum;
+
+            JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetCreateTaskInLesson.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Task created successfully!")) {
+                JOptionPane.showMessageDialog(this, "Task created successfully!" +
+                        "\nLesson id = " + lessonNum +
+                        "\nTask name = " + task);
+            } else if (null != response && response.get("message").equals("Error: Lesson does not exist")) {
+                JOptionPane.showMessageDialog(this, "Error: Lesson does not exist");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Task can't be created!");
+            }
+        }
 
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
