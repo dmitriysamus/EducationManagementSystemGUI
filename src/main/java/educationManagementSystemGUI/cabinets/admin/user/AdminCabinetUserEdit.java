@@ -154,8 +154,8 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
             userPasswordText = userEditPasswordTextField.getText();
 
             String JSON_STRING = "{\"id\":\"" + userIdText +
-                    "\"username\":\"" + userNameText +
-                    "\"email\":\"" + userEmailText +
+                    "\",\"username\":\"" + userNameText +
+                    "\",\"email\":\"" + userEmailText +
                     "\",\"password\":\"" + userPasswordText + "\"} ";
 
             String url = "http://localhost:8080/api/auth/users/" + userIdText;
