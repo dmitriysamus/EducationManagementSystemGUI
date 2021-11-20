@@ -7,6 +7,7 @@ import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowMyRateInG
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetChangeUserInfo;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.DisplayGUI;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
 
@@ -175,8 +176,8 @@ public class UserCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show User Info button
         if (e.getSource() == userInfoButton) {
-            dispose();
-            UserCabinetShowUserInfo.showUserInfoForm(userInfo, response);
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayUserGUI(userInfo), "User info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Change User Info button

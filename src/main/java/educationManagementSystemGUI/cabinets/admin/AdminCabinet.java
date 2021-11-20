@@ -8,6 +8,7 @@ import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserDelete;
 import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserEdit;
 import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.DisplayGUI;
 import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -205,8 +206,8 @@ public class AdminCabinet extends JFrame implements ActionListener {
         if (e.getSource() == userInfoButton) {
             String url = "http://localhost:8080/api/auth/users/getUserInfo";
             JSONObject response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
-            dispose();
-            AdminCabinetUserInfo.showUserInfoForm(userInfo, response);
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayUserGUI(userInfo), "User info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of EDIT button
