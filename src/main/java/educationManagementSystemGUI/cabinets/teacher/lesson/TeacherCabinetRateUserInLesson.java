@@ -1,7 +1,6 @@
 package educationManagementSystemGUI.cabinets.teacher.lesson;
 
 import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
-import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllUsers;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -15,7 +14,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link TeacherCabinetRateUserInLesson} отображает форму метода
- * {@link UserCabinet#rateStudentInLessonButton}  пользователя с
+ * {@link UserCabinet# rateStudentInLessonButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo, dmitriysamus
@@ -36,7 +35,8 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
     JLabel gradeLabel = new JLabel("Grade");
     JTextField gradeTextField = new JTextField();
 
-    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel lessonLabel = new JLabel("Working with Lesson");
+    JLabel methodLabel = new JLabel("Rating user in lesson");
     JButton rateUserButton = new JButton("Rate User");
     // при http POST запросе по адресу .../api/auth/groups/rate/{lessonId}
 
@@ -67,14 +67,15 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        lessonIdLabel.setBounds(10, 100, 180, 30);
-        lessonIdTextField.setBounds(200, 100, 180, 30);
-        studentIdLabel.setBounds(10, 150, 180, 30);
-        studentIdTextField.setBounds(200, 150, 180, 30);
-        gradeLabel.setBounds(10, 200, 180, 30);
-        gradeTextField.setBounds(200, 200, 180, 30);
+        lessonIdLabel.setBounds(10, 150, 180, 30);
+        lessonIdTextField.setBounds(200, 150, 180, 30);
+        studentIdLabel.setBounds(10, 200, 180, 30);
+        studentIdTextField.setBounds(200, 200, 180, 30);
+        gradeLabel.setBounds(10, 250, 180, 30);
+        gradeTextField.setBounds(200, 250, 180, 30);
 
-        groupLabel.setBounds(10, 50, 180, 30);
+        lessonLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
         rateUserButton.setBounds(10, 300, 180, 30);
     }
 
@@ -94,7 +95,8 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
         container.add(gradeLabel);
         container.add(gradeTextField);
 
-        container.add(groupLabel);
+        container.add(lessonLabel);
+        container.add(methodLabel);
         container.add(rateUserButton);
     }
 
@@ -181,7 +183,7 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
 
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
-            JSONObject response = HttpLogout.httpLogout( userInfo);
+            JSONObject response = HttpLogout.httpLogout(userInfo);
             JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             LoginForm.showLoginForm();

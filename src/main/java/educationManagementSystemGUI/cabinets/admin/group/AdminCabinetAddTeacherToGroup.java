@@ -27,7 +27,7 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userLabel = new JLabel("Working with Users");
+    JLabel methodLabel = new JLabel("Adding Teacher to Group");
     JLabel teacherIdLabel = new JLabel("Teacher Id");
     JTextField teacherIdTextField = new JTextField();
     JLabel groupIdLabel = new JLabel("Group Id");
@@ -63,11 +63,11 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userLabel.setBounds(10, 50, 180, 30);
-        teacherIdLabel.setBounds(10, 100, 180, 30);
-        teacherIdTextField.setBounds(200, 100, 180, 30);
-        groupIdLabel.setBounds(10, 150, 180, 30);
-        groupIdTextField.setBounds(200, 150, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
+        teacherIdLabel.setBounds(10, 150, 180, 30);
+        teacherIdTextField.setBounds(200, 150, 180, 30);
+        groupIdLabel.setBounds(10, 200, 180, 30);
+        groupIdTextField.setBounds(200, 200, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
         groupAddButton.setBounds(10, 300, 180, 30);
@@ -82,7 +82,7 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userLabel);
+        container.add(methodLabel);
         container.add(teacherIdLabel);
         container.add(teacherIdTextField);
         container.add(groupIdLabel);

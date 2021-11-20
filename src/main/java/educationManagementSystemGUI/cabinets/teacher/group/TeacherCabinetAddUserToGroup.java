@@ -1,8 +1,6 @@
 package educationManagementSystemGUI.cabinets.teacher.group;
 
-import educationManagementSystemGUI.cabinets.admin.group.AdminCabinetAddTeacherToGroup;
 import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
-import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowUserInfo;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -16,7 +14,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link TeacherCabinetAddUserToGroup} отображает форму метода
- * {@link UserCabinet#groupAddStudentButton}  пользователя с
+ * {@link UserCabinet# groupAddStudentButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -30,11 +28,12 @@ public class TeacherCabinetAddUserToGroup extends JFrame implements ActionListen
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
+    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel methodLabel = new JLabel("Adding user to Group");
     JLabel userIdLabel = new JLabel("User Id");
     JTextField userIdTextField = new JTextField();
     JLabel groupIdLabel = new JLabel("Group Id");
     JTextField groupIdTextField = new JTextField();
-    JLabel groupLabel = new JLabel("Working with Group");
     JButton userAddButton = new JButton("Add User to Group");
     // при http POST запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
 
@@ -65,12 +64,13 @@ public class TeacherCabinetAddUserToGroup extends JFrame implements ActionListen
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userIdLabel.setBounds(10, 100, 180, 30);
-        userIdTextField.setBounds(200, 100, 180, 30);
-        groupIdLabel.setBounds(10, 150, 180, 30);
-        groupIdTextField.setBounds(200, 150, 180, 30);
+        userIdLabel.setBounds(10, 150, 180, 30);
+        userIdTextField.setBounds(200, 150, 180, 30);
+        groupIdLabel.setBounds(10, 200, 180, 30);
+        groupIdTextField.setBounds(200, 200, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
         userAddButton.setBounds(10, 300, 180, 30);
     }
 
@@ -89,6 +89,7 @@ public class TeacherCabinetAddUserToGroup extends JFrame implements ActionListen
         container.add(groupIdTextField);
 
         container.add(groupLabel);
+        container.add(methodLabel);
         container.add(userAddButton);
     }
 

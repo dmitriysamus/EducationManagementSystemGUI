@@ -29,7 +29,7 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
     Container container = getContentPane();
 
     JLabel userLabel = new JLabel("Working with Users");
-    JLabel userEditLabel = new JLabel("Edit User Info");
+    JLabel methodLabel = new JLabel("Edit User Info");
     JLabel userEditIdIdLabel = new JLabel("User Id for edit");
     JTextField userEditTextIdField = new JTextField();
     JLabel userEditNameLabel = new JLabel("User name for edit");
@@ -69,15 +69,16 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
         backButton.setBounds(200, 530, 180, 30);
 
         userLabel.setBounds(10, 50, 180, 30);
-        userEditIdIdLabel.setBounds(10, 100, 180, 30);
-        userEditTextIdField.setBounds(200, 100, 180, 30);
-        userEditNameLabel.setBounds(10, 150, 180, 30);
-        userEditNameTextField.setBounds(200, 150, 180, 30);
-        userEditEmailLabel.setBounds(10, 200, 180, 30);
-        userEditEmailTextField.setBounds(200, 200, 180, 30);
-        userEditPasswordLabel.setBounds(10, 250, 180, 30);
-        userEditPasswordTextField.setBounds(200, 250, 180, 30);
-        editButton.setBounds(10, 300, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
+        userEditIdIdLabel.setBounds(10, 150, 180, 30);
+        userEditTextIdField.setBounds(200, 150, 180, 30);
+        userEditNameLabel.setBounds(10, 200, 180, 30);
+        userEditNameTextField.setBounds(200, 200, 180, 30);
+        userEditEmailLabel.setBounds(10, 250, 180, 30);
+        userEditEmailTextField.setBounds(200, 250, 180, 30);
+        userEditPasswordLabel.setBounds(10, 300, 180, 30);
+        userEditPasswordTextField.setBounds(200, 300, 180, 30);
+        editButton.setBounds(10, 350, 180, 30);
     }
 
     /**
@@ -90,6 +91,7 @@ public class AdminCabinetUserEdit extends JFrame implements ActionListener {
         container.add(backButton);
 
         container.add(userLabel);
+        container.add(methodLabel);
         container.add(userEditIdIdLabel);
         container.add(userEditTextIdField);
         container.add(userEditNameLabel);

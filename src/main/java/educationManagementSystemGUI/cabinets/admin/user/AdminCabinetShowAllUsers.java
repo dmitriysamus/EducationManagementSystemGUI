@@ -27,6 +27,7 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
     JButton backButton = new JButton("Back");
 
     JLabel userLabel = new JLabel("Working with Users");
+    JLabel methodLabel = new JLabel("Showing list of Users");
     JLabel userListLabel = new JLabel("List of Users");
     JTextArea userListTextArea = new JTextArea();
     JScrollPane areaScrollPane = new JScrollPane(userListTextArea);
@@ -60,9 +61,10 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
         backButton.setBounds(200, 530, 180, 30);
 
         userLabel.setBounds(10, 50, 180, 30);
-        userListLabel.setBounds(10, 100, 180, 30);
-        userListTextArea.setBounds(10, 150, 350, 150);
-        areaScrollPane.setBounds(10, 150, 350, 150);
+        methodLabel.setBounds(10, 100, 180, 30);
+        userListLabel.setBounds(10, 150, 180, 30);
+        userListTextArea.setBounds(10, 200, 350, 150);
+        areaScrollPane.setBounds(10, 200, 350, 150);
     }
 
     /**
@@ -75,6 +77,7 @@ public class AdminCabinetShowAllUsers extends JFrame implements ActionListener {
         container.add(backButton);
 
         container.add(userLabel);
+        container.add(methodLabel);
         container.add(userListLabel);
         container.add(userListTextArea);
         container.add(areaScrollPane);

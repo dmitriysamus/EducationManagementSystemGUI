@@ -28,6 +28,7 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
     JButton backButton = new JButton("Back");
 
     JLabel userLabel = new JLabel("Working with Users");
+    JLabel methodLabel = new JLabel("Deleting User");
     JLabel userDeleteIdIdLabel = new JLabel("User Id for delete");
     JTextField userDeleteTextIdField = new JTextField();
     JButton userDeleteButton = new JButton("Delete User");
@@ -61,9 +62,10 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
         backButton.setBounds(200, 530, 180, 30);
 
         userLabel.setBounds(10, 50, 180, 30);
-        userDeleteIdIdLabel.setBounds(10, 100, 180, 30);
-        userDeleteTextIdField.setBounds(200, 100, 180, 30);
-        userDeleteButton.setBounds(10, 150, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
+        userDeleteIdIdLabel.setBounds(10, 150, 180, 30);
+        userDeleteTextIdField.setBounds(200, 150, 180, 30);
+        userDeleteButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -76,6 +78,7 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
         container.add(backButton);
 
         container.add(userLabel);
+        container.add(methodLabel);
         container.add(userDeleteIdIdLabel);
         container.add(userDeleteTextIdField);
         container.add(userDeleteButton);

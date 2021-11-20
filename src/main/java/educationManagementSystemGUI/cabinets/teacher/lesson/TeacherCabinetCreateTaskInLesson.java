@@ -1,7 +1,6 @@
 package educationManagementSystemGUI.cabinets.teacher.lesson;
 
 import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
-import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllUsers;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -15,7 +14,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link TeacherCabinetCreateTaskInLesson} отображает форму метода
- * {@link UserCabinet#createTaskInLessonButton}  пользователя с
+ * {@link UserCabinet# createTaskInLessonButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo, dmitriysamus
@@ -34,7 +33,8 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
     JLabel taskLabel = new JLabel("Task name");
     JTextField taskTextField = new JTextField();
 
-    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel lessonLabel = new JLabel("Working with Lesson");
+    JLabel methodLabel = new JLabel("Creating task in lesson");
     JButton createTaskButton = new JButton("Create Task");
     // при http POST запросе по адресу .../api/auth/groups/lessons/{lessonId}
 
@@ -65,12 +65,13 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        lessonIdLabel.setBounds(10, 100, 180, 30);
-        lessonIdTextField.setBounds(200, 100, 180, 30);
-        taskLabel.setBounds(10, 150, 180, 30);
-        taskTextField.setBounds(200, 150, 180, 30);
+        lessonIdLabel.setBounds(10, 150, 180, 30);
+        lessonIdTextField.setBounds(200, 150, 180, 30);
+        taskLabel.setBounds(10, 200, 180, 30);
+        taskTextField.setBounds(200, 200, 180, 30);
 
-        groupLabel.setBounds(10, 50, 180, 30);
+        lessonLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
         createTaskButton.setBounds(10, 300, 180, 30);
     }
 
@@ -88,7 +89,8 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
         container.add(taskLabel);
         container.add(taskTextField);
 
-        container.add(groupLabel);
+        container.add(lessonLabel);
+        container.add(methodLabel);
         container.add(createTaskButton);
     }
 

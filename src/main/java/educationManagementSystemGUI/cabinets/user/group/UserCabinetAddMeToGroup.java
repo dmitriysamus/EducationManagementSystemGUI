@@ -1,9 +1,11 @@
 package educationManagementSystemGUI.cabinets.user.group;
 
+import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetAddUserToGroup;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
+import educationManagementSystemGUI.utils.HttpPostUtil;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -13,7 +15,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link UserCabinetAddMeToGroup} отображает форму метода
- * {@link UserCabinet#groupAddStudentButton}  пользователя с
+ * {@link UserCabinet# groupAddStudentButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -27,9 +29,11 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Add User to Group");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
+    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel methodLabel = new JLabel("Adding user to Group");
+    JLabel groupIdLabel = new JLabel("Group Id");
+    JTextField groupIdTextField = new JTextField();
+    JButton userAddButton = new JButton("Add me to Group");
     // при http POST запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
 
     public UserCabinetAddMeToGroup(JSONObject userInfo, JSONObject response) {
@@ -59,9 +63,12 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        groupIdLabel.setBounds(10, 150, 180, 30);
+        groupIdTextField.setBounds(200, 150, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
+        userAddButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -73,9 +80,12 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(groupIdLabel);
+        container.add(groupIdTextField);
+
+        container.add(groupLabel);
+        container.add(methodLabel);
+        container.add(userAddButton);
     }
 
     /**
@@ -97,7 +107,7 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
      * @param response JSONObject
      */
     public static void addUserToGroupForm(JSONObject userInfo, JSONObject response) {
-        UserCabinetShowUserInfo frame = new UserCabinetShowUserInfo(userInfo, response);
+        UserCabinetAddMeToGroup frame = new UserCabinetAddMeToGroup(userInfo, response);
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +127,36 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        //Coding Part of Add User to Group button /api/auth/groups/students/{groupNum}/{studentId}
+        if (e.getSource() == userAddButton) {
+            String groupNum;
+            String student;
+            groupNum = groupIdTextField.getText();
+            student = (String) userInfo.get("username");
+            String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
+
+            JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetAddUserToGroup.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Student added successfully!")) {
+                JOptionPane.showMessageDialog(this, "Student added successfully!" +
+                        "\nUser id = " + student +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: User (user) does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (user) does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else if (null != response && response.get("message").equals("Error: User (user) has not role user!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (user) has not role user!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Student can't be added!");
+            }
+        }
+
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
@@ -125,7 +165,7 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
 
         //Coding Part of LOGOUT button
         if (e.getSource() == logoutButton) {
-            JSONObject response = HttpLogout.httpLogout( userInfo);
+            JSONObject response = HttpLogout.httpLogout(userInfo);
             JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
             LoginForm.showLoginForm();

@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link TeacherCabinetDropUserFromGroup} отображает форму метода
- * {@link UserCabinet#groupDropButton}  пользователя с
+ * {@link UserCabinet# groupDropButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -30,11 +30,12 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
+    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel methodLabel = new JLabel("Deleting user from Group");
     JLabel userIdLabel = new JLabel("User Id");
     JTextField userIdTextField = new JTextField();
     JLabel groupIdLabel = new JLabel("Group Id");
     JTextField groupIdTextField = new JTextField();
-    JLabel groupLabel = new JLabel("Working with Group");
     JButton userDeleteButton = new JButton("Delete User from Group");
     // при http DELETE запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
 
@@ -65,12 +66,13 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userIdLabel.setBounds(10, 100, 180, 30);
-        userIdTextField.setBounds(200, 100, 180, 30);
-        groupIdLabel.setBounds(10, 150, 180, 30);
-        groupIdTextField.setBounds(200, 150, 180, 30);
+        userIdLabel.setBounds(10, 150, 180, 30);
+        userIdTextField.setBounds(200, 150, 180, 30);
+        groupIdLabel.setBounds(10, 200, 180, 30);
+        groupIdTextField.setBounds(200, 200, 180, 30);
 
         groupLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
         userDeleteButton.setBounds(10, 300, 180, 30);
     }
 
@@ -89,6 +91,7 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
         container.add(groupIdTextField);
 
         container.add(groupLabel);
+        container.add(methodLabel);
         container.add(userDeleteButton);
     }
 

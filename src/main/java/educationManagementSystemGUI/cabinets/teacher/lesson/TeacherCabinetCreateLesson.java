@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link TeacherCabinetCreateLesson} отображает форму метода
- * {@link UserCabinet#createLessonButton}  пользователя с
+ * {@link UserCabinet# createLessonButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo, dmitriysamus
@@ -33,10 +33,11 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
 
     JLabel groupIdLabel = new JLabel("Group Id");
     JTextField groupIdTextField = new JTextField();
-    JLabel lessonLabel = new JLabel("Lesson name");
+    JLabel lessonNameLabel = new JLabel("Lesson name");
     JTextField lessonTextField = new JTextField();
 
-    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel lessonLabel = new JLabel("Working with Lesson");
+    JLabel methodLabel = new JLabel("Creating lesson");
     JButton createLessonButton = new JButton("Create Lesson");
     // при http POST запросе по адресу .../api/auth/groups/{groupNum}/lesson
 
@@ -67,12 +68,13 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        groupIdLabel.setBounds(10, 100, 180, 30);
-        groupIdTextField.setBounds(200, 100, 180, 30);
-        lessonLabel.setBounds(10, 150, 180, 30);
-        lessonTextField.setBounds(200, 150, 180, 30);
+        groupIdLabel.setBounds(10, 150, 180, 30);
+        groupIdTextField.setBounds(200, 150, 180, 30);
+        lessonNameLabel.setBounds(10, 200, 180, 30);
+        lessonTextField.setBounds(200, 200, 180, 30);
 
-        groupLabel.setBounds(10, 50, 180, 30);
+        lessonLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
         createLessonButton.setBounds(10, 300, 180, 30);
     }
 
@@ -87,10 +89,11 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
 
         container.add(groupIdLabel);
         container.add(groupIdTextField);
-        container.add(lessonLabel);
+        container.add(lessonNameLabel);
         container.add(lessonTextField);
 
-        container.add(groupLabel);
+        container.add(lessonLabel);
+        container.add(methodLabel);
         container.add(createLessonButton);
     }
 

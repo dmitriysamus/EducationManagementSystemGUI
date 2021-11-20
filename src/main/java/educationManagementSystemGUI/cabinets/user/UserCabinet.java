@@ -40,10 +40,8 @@ public class UserCabinet extends JFrame implements ActionListener {
     // TODO
     JButton groupAddStudentButton = new JButton("Add User to Group");
     // при http POST запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
-    // TODO only user himself can add
     JButton groupDropButton = new JButton("Delete User from Group");
     // при http DELETE запросе по адресу .../api/auth/groups/{groupNum}
-    // TODO only user himself can add
     JButton groupRateButton = new JButton("My Rate in Groups");
     // TODO only user rates
 

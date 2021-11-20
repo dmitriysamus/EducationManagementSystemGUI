@@ -1,8 +1,10 @@
 package educationManagementSystemGUI.cabinets.user.group;
 
+import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetDropUserFromGroup;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
+import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
 
@@ -13,7 +15,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link UserCabinetDropMeFromGroup} отображает форму метода
- * {@link UserCabinet#groupDropButton}  пользователя с
+ * {@link UserCabinet# groupDropButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -27,10 +29,12 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
     JButton logoutButton = new JButton("Logout");
     JButton backButton = new JButton("Back");
 
-    JLabel userInfoLabel = new JLabel("Drop User from Group");
-    JTextArea textArea = new JTextArea();
-    JScrollPane areaScrollPane = new JScrollPane(textArea);
-    // при http DELETE запросе по адресу .../api/auth/groups/{groupNum}
+    JLabel groupLabel = new JLabel("Working with Group");
+    JLabel methodLabel = new JLabel("Deleting user from Group");
+    JLabel groupIdLabel = new JLabel("Group Id");
+    JTextField groupIdTextField = new JTextField();
+    JButton userDeleteButton = new JButton("Delete me from Group");
+    // при http DELETE запросе по адресу .../api/auth/groups/students/{groupNum}/{studentId}
 
     public UserCabinetDropMeFromGroup(JSONObject userInfo, JSONObject response) {
         this.userInfo = userInfo;
@@ -59,9 +63,12 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
         logoutButton.setBounds(10, 530, 180, 30);
         backButton.setBounds(200, 530, 180, 30);
 
-        userInfoLabel.setBounds(50, 100, 100, 30);
-        textArea.setBounds(150, 100, 150, 30);
-        areaScrollPane.setBounds(150, 100, 150, 30);
+        groupIdLabel.setBounds(10, 150, 180, 30);
+        groupIdTextField.setBounds(200, 150, 180, 30);
+
+        groupLabel.setBounds(10, 50, 180, 30);
+        methodLabel.setBounds(10, 100, 180, 30);
+        userDeleteButton.setBounds(10, 300, 180, 30);
     }
 
     /**
@@ -73,9 +80,12 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
         container.add(logoutButton);
         container.add(backButton);
 
-        container.add(userInfoLabel);
-        container.add(textArea);
-        container.add(areaScrollPane);
+        container.add(groupIdLabel);
+        container.add(groupIdTextField);
+
+        container.add(groupLabel);
+        container.add(methodLabel);
+        container.add(userDeleteButton);
     }
 
     /**
@@ -97,7 +107,7 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
      * @param response JSONObject
      */
     public static void dropUserFromGroupForm(JSONObject userInfo, JSONObject response) {
-        UserCabinetShowUserInfo frame = new UserCabinetShowUserInfo(userInfo, response);
+        UserCabinetDropMeFromGroup frame = new UserCabinetDropMeFromGroup(userInfo, response);
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);
@@ -117,6 +127,33 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        //Coding Part of Delete User from Group button /api/auth/groups/students/{groupNum}/{studentId}
+        if (e.getSource() == userDeleteButton) {
+            String groupNum;
+            String student;
+            groupNum = groupIdTextField.getText();
+            student = (String) userInfo.get("username");
+            String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
+
+            // TODO JSON to DELETE
+            JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            dispose();
+            TeacherCabinetDropUserFromGroup.showTeacherForm(userInfo, response);
+
+            if (null != response && response.get("message").equals("Student deleted successfully!")) {
+                JOptionPane.showMessageDialog(this, "Student deleted successfully!" +
+                        "\nUser id = " + student +
+                        "\nGroup id = " + groupNum);
+            } else if (null != response && response.get("message").equals("Error: User (user) does not exist in the group!")) {
+                JOptionPane.showMessageDialog(this, "Error: User (user) does not exist in the group!");
+
+            } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
+                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: Student can't be deleted!");
+            }
+        }
         //Coding Part of BACK button
         if (e.getSource() == backButton) {
             dispose();
