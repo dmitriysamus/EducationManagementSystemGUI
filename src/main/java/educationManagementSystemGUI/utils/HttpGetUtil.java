@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -26,10 +27,11 @@ public class HttpGetUtil {
      * @param token токен запроса в строковом виде
      * @return возвращает JSONObject с параметрами в виде файла json
      */
-    public static JSONObject httpRequest(String url, String token) {
+    public static JSONArray httpRequest(String url, String token) {
 
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10 * 1000).build();
-        JSONObject result = null;
+        JSONArray jArray = null;
+
         HttpGet httpGet = new HttpGet(url);
         if (null != token) {
             httpGet.setHeader("Authorization", "Bearer " + token);
@@ -40,15 +42,16 @@ public class HttpGetUtil {
         ) {
             HttpEntity entity = response.getEntity();
             String stringResponse = EntityUtils.toString(entity, "UTF-8");
-            if (stringResponse.startsWith("[") && stringResponse.endsWith("]")) {
-                stringResponse = stringResponse.replace("[", "").replace("]", "");
+
+            if (!stringResponse.startsWith("[") && !stringResponse.endsWith("]")) {
+                stringResponse = "[" + stringResponse + "]";
             }
-            result = new JSONObject(stringResponse);
+            jArray  = new JSONArray(stringResponse);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return result;
+        return jArray;
     }
 
 }

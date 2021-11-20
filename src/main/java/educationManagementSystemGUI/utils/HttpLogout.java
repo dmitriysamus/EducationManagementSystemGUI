@@ -10,7 +10,7 @@ public class HttpLogout {
         String jwt = (String) userInfo.get("accessToken");
         JSONObject response = HttpGetUtil.httpRequest(
                 url,
-                jwt);
+                jwt).getJSONObject(0);
 
         return response;
     }

@@ -1,7 +1,6 @@
 package educationManagementSystemGUI.cabinets.user.group;
 
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
-import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
@@ -13,7 +12,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link UserCabinetShowAllGroups} отображает форму метода
- * {@link UserCabinet#groupShowAllGroupsButton}  пользователя с
+ * {@link UserCabinet# groupShowAllGroupsButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -97,7 +96,7 @@ public class UserCabinetShowAllGroups extends JFrame implements ActionListener {
      * @param response JSONObject
      */
     public static void showUserInfoForm(JSONObject userInfo, JSONObject response) {
-        UserCabinetShowUserInfo frame = new UserCabinetShowUserInfo(userInfo, response);
+        UserCabinetShowAllGroups frame = new UserCabinetShowAllGroups(userInfo, response);
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);

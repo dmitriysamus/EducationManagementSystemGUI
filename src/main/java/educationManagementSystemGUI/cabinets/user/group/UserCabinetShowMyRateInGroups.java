@@ -1,7 +1,6 @@
 package educationManagementSystemGUI.cabinets.user.group;
 
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
-import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONObject;
@@ -13,7 +12,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link UserCabinetShowMyRateInGroups} отображает форму метода
- * {@link UserCabinet#groupRateButton}  пользователя с
+ * {@link UserCabinet# groupRateButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -97,7 +96,7 @@ public class UserCabinetShowMyRateInGroups extends JFrame implements ActionListe
      * @param response JSONObject
      */
     public static void showUserGroupRateForm(JSONObject userInfo, JSONObject response) {
-        UserCabinetShowUserInfo frame = new UserCabinetShowUserInfo(userInfo, response);
+        UserCabinetShowMyRateInGroups frame = new UserCabinetShowMyRateInGroups(userInfo, response);
         frame.setTitle("User Cabinet");
         frame.setVisible(true);
         frame.setBounds(10, 10, 400, 600);

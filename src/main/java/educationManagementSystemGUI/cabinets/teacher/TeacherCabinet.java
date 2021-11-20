@@ -8,11 +8,11 @@ import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreate
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreateTaskInLesson;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetRateUserInLesson;
 import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetChangeUserInfo;
-import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowAllUsers;
-import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
+import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -203,12 +203,15 @@ public class TeacherCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show All Users button
         if (e.getSource() == showAllUsersButton) {
-            dispose();
-            TeacherCabinetShowAllUsers.showTeacherForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/users";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllUsersGUI(response), "All User info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Show User Info button
         if (e.getSource() == userInfoButton) {
+            String url = "http://localhost:8080/api/auth/users/getUserInfo";
             JOptionPane.showMessageDialog(this, DisplayGUI.displayUserGUI(userInfo), "User info",
                     JOptionPane.INFORMATION_MESSAGE);
         }

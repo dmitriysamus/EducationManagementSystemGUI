@@ -5,7 +5,6 @@ import educationManagementSystemGUI.cabinets.user.group.UserCabinetDropMeFromGro
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowAllGroups;
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowMyRateInGroups;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetChangeUserInfo;
-import educationManagementSystemGUI.cabinets.user.user.UserCabinetShowUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -156,13 +155,13 @@ public class UserCabinet extends JFrame implements ActionListener {
             UserCabinetShowAllGroups.showUserInfoForm(userInfo, response);
         }
 
-        //Coding Part of Show All Groups button
+        //Coding Part of Add Student to Group button
         if (e.getSource() == groupAddStudentButton) {
             dispose();
             UserCabinetAddMeToGroup.addUserToGroupForm(userInfo, response);
         }
 
-        //Coding Part of Show All Groups button
+        //Coding Part of Drop Student from Group button
         if (e.getSource() == groupDropButton) {
             dispose();
             UserCabinetDropMeFromGroup.dropUserFromGroupForm(userInfo, response);
@@ -176,6 +175,7 @@ public class UserCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show User Info button
         if (e.getSource() == userInfoButton) {
+            String url = "http://localhost:8080/api/auth/users/getUserInfo";
             JOptionPane.showMessageDialog(this, DisplayGUI.displayUserGUI(userInfo), "User info",
                     JOptionPane.INFORMATION_MESSAGE);
         }

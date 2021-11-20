@@ -3,15 +3,14 @@ package educationManagementSystemGUI.cabinets.admin;
 import educationManagementSystemGUI.cabinets.admin.group.AdminCabinetAddTeacherToGroup;
 import educationManagementSystemGUI.cabinets.admin.group.AdminCabinetCreateGroup;
 import educationManagementSystemGUI.cabinets.admin.group.AdminCabinetDeleteGroup;
-import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetShowAllUsers;
 import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserDelete;
 import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserEdit;
-import educationManagementSystemGUI.cabinets.admin.user.AdminCabinetUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
 import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -197,15 +196,14 @@ public class AdminCabinet extends JFrame implements ActionListener {
         //Coding Part of Show All Users button /api/auth/users
         if (e.getSource() == showAllUsersButton) {
             String url = "http://localhost:8080/api/auth/users";
-            JSONObject response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
-            dispose();
-            AdminCabinetShowAllUsers.showAllUserForm(userInfo, response);
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllUsersGUI(response), "All User info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Show Users Info button /api/auth/users/getUserInfo
         if (e.getSource() == userInfoButton) {
             String url = "http://localhost:8080/api/auth/users/getUserInfo";
-            JSONObject response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
             JOptionPane.showMessageDialog(this, DisplayGUI.displayUserGUI(userInfo), "User info",
                     JOptionPane.INFORMATION_MESSAGE);
         }
