@@ -149,13 +149,23 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
             TeacherCabinetCreateTaskInLesson.showTeacherForm(userInfo, response);
 
             if (null != response && response.get("message").equals("Task created successfully!")) {
-                JOptionPane.showMessageDialog(this, "Task created successfully!" +
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Task created successfully!" +
                         "\nLesson id = " + lessonNum +
                         "\nTask name = " + task);
             } else if (null != response && response.get("message").equals("Error: Lesson does not exist")) {
-                JOptionPane.showMessageDialog(this, "Error: Lesson does not exist");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Lesson does not exist",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Task can't be created!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Task can't be created!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 

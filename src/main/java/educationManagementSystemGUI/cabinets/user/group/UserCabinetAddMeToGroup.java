@@ -135,25 +135,44 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
             String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
 
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
-            dispose();
-            TeacherCabinetAddUserToGroup.showTeacherForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Student added successfully!")) {
-                JOptionPane.showMessageDialog(this, "Student added successfully!" +
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Student added successfully!" +
                         "\nUser id = " + student +
                         "\nGroup id = " + groupNum);
             } else if (null != response && response.get("message").equals("Error: User (user) does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: User (user) does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User (user) does not exist!",
+                        "User error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group does not exist!",
+                        "User error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: User (user) has not role user!")) {
-                JOptionPane.showMessageDialog(this, "Error: User (user) has not role user!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User (user) has not role user!",
+                        "User error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Student can't be added!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Student can't be added!",
+                        "User error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            TeacherCabinetAddUserToGroup.showTeacherForm(userInfo, response);
+
         }
 
         //Coding Part of BACK button

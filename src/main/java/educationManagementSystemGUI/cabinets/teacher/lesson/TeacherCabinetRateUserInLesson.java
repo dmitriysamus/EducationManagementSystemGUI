@@ -163,15 +163,35 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
                         "\nStudent id = " + studentId +
                         "\nGrade = " + grade);
             } else if (null != response && response.get("message").equals("Error: Lesson does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Lesson does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Lesson does not exist!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             } else if (null != response && response.get("message").equals("Error: User does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: User does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User does not exist!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             } else if (null != response && response.get("message").equals("Error: Student does not exists in the group!")) {
-                JOptionPane.showMessageDialog(this, "Error: Student does not exists in the group!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Student does not exists in the group!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             } else if (null != response && response.get("message").equals("Error: Incorrect grade!")) {
-                JOptionPane.showMessageDialog(this, "Error: Incorrect grade!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Incorrect grade!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Student can't be rated!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Student can't be rated!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 

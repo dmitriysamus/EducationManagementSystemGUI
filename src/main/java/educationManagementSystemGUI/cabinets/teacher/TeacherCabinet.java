@@ -221,7 +221,7 @@ public class TeacherCabinet extends JFrame implements ActionListener {
         //Coding Part of Change User Info button
         if (e.getSource() == userInfoChangeButton) {
             dispose();
-            TeacherCabinetChangeUserInfo.showTeacherForm(userInfo, response);
+            TeacherCabinetChangeUserInfo.showEditUserForm(userInfo, response);
         }
 
         //Coding Part of Create Lesson button

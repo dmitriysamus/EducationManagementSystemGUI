@@ -117,14 +117,14 @@ public class TeacherCabinetChangeUserInfo extends JFrame implements ActionListen
     }
 
     /**
-     * Статический метод {@link TeacherCabinetChangeUserInfo#showTeacherForm(JSONObject, JSONObject)}
+     * Статический метод {@link TeacherCabinetChangeUserInfo#showEditUserForm(JSONObject, JSONObject)}
      * создает форму кабинета пользователя USER
      * для отображения.
      *
      * @param userInfo JSONObject
      * @param response JSONObject
      */
-    public static void showTeacherForm(JSONObject userInfo, JSONObject response) {
+    public static void showEditUserForm(JSONObject userInfo, JSONObject response) {
         TeacherCabinetChangeUserInfo frame = new TeacherCabinetChangeUserInfo(userInfo, response);
         frame.setTitle("Teacher Form");
         frame.setVisible(true);
@@ -166,7 +166,7 @@ public class TeacherCabinetChangeUserInfo extends JFrame implements ActionListen
             JSONObject response = HttpPutUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
             JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
-            AdminCabinetUserEdit.showEditUserForm(userInfo, response);
+            TeacherCabinetChangeUserInfo.showEditUserForm(userInfo, response);
 
         }
 

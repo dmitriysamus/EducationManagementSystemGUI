@@ -142,27 +142,43 @@ public class AdminCabinetAddTeacherToGroup extends JFrame implements ActionListe
             teacher = teacherIdTextField.getText();
             String url = "http://localhost:8080/api/auth/groups/" + groupNum + "/" + teacher;
 
-            // TODO JSON to POST
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
-            dispose();
-            AdminCabinetAddTeacherToGroup.showCabinetForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Teacher added successfully!")) {
                 JOptionPane.showMessageDialog(this, "Teacher added successfully!" +
                         "\nTeacher id = " + teacher +
                         "\nGroup id = " + groupNum);
             } else if (null != response && response.get("message").equals("Error: User (teacher) does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: User (teacher) does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User (teacher) does not exist!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group does not exist!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: User (teacher) has not role teacher!")) {
-                JOptionPane.showMessageDialog(this, "Error: User (teacher) has not role teacher!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User (teacher) has not role teacher!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Teacher can't be added!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Teacher can't be added!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            AdminCabinetAddTeacherToGroup.showCabinetForm(userInfo, response);
+
         }
 
         //Coding Part of BACK button

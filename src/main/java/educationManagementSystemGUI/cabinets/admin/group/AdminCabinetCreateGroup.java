@@ -134,20 +134,29 @@ public class AdminCabinetCreateGroup extends JFrame implements ActionListener {
             groupNum = groupIdTextField.getText();
             String url = "http://localhost:8080/api/auth/groups/" + groupNum;
 
-            // TODO JSON to POST
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
-            dispose();
-            AdminCabinetCreateGroup.showCabinetForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Group created successfully!")) {
                 JOptionPane.showMessageDialog(this, "Group created successfully!" +
                         "\nGroup id = " + groupNum);
             } else if (null != response && response.get("message").equals("Error: Group already exists!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group already exists!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group already exists!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Group can't be created!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group can't be created!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            AdminCabinetCreateGroup.showCabinetForm(userInfo, response);
+
+
         }
 
         //Coding Part of BACK button

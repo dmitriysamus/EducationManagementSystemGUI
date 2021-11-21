@@ -1,6 +1,7 @@
 package educationManagementSystemGUI.cabinets.admin.user;
 
 import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
+import educationManagementSystemGUI.cabinets.admin.group.AdminCabinetCreateGroup;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.HttpDeleteUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
@@ -132,6 +133,17 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
 
             String url = "http://localhost:8080/api/auth/users/" + userIdText;
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            if (null != response && response.get("message").equals("User was deleted successfully!")) {
+                JOptionPane.showMessageDialog(this, "User was deleted successfully!" +
+                        "\nUser id = " + userInfo.get("id"));
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User was not deleted!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
             dispose();
             AdminCabinet.showCabinetForm(userInfo, response);
         }

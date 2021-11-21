@@ -145,22 +145,35 @@ public class TeacherCabinetCreateLesson extends JFrame implements ActionListener
             String url = "http://localhost:8080/api/auth/groups/" + groupNum + "/lesson";
 
             JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
-            dispose();
-            TeacherCabinetCreateLesson.showTeacherForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Lesson created successfully!")) {
                 JOptionPane.showMessageDialog(this, "Lesson created successfully!" +
                         "\nGroup id = " + groupNum +
                         "\nLesson name = " + lesson);
             } else if (null != response && response.get("message").equals("Error: Lesson exists in the group!")) {
-                JOptionPane.showMessageDialog(this, "Error: Lesson exists in the group!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Lesson exists in the group!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group does not exist!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Lesson can't be created!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Lesson can't be created!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            TeacherCabinetCreateLesson.showTeacherForm(userInfo, response);
+
         }
 
         //Coding Part of BACK button

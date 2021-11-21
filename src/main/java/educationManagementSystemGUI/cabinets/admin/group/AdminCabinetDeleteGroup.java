@@ -134,20 +134,28 @@ public class AdminCabinetDeleteGroup extends JFrame implements ActionListener {
             groupNum = groupIdTextField.getText();
             String url = "http://localhost:8080/api/auth/groups/" + groupNum;
 
-            // TODO JSON to DELETE
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
-            dispose();
-            AdminCabinetDeleteGroup.showCabinetForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Group deleted successfully!")) {
                 JOptionPane.showMessageDialog(this, "Group deleted successfully!" +
                         "\nGroup id = " + groupNum);
             } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group does not exist!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Group can't be deleted!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group can't be deleted!",
+                        "Admin error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            AdminCabinetDeleteGroup.showCabinetForm(userInfo, response);
+
         }
 
         //Coding Part of BACK button

@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Класс {@link UserCabinetChangeUserInfo} отображает форму метода
- * {@link UserCabinet#userInfoChangeButton}  пользователя с
+ * {@link UserCabinet# userInfoChangeButton}  пользователя с
  * ролью USER.
  *
  * @author habatoo
@@ -166,7 +166,7 @@ public class UserCabinetChangeUserInfo extends JFrame implements ActionListener 
             JSONObject response = HttpPutUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
             JOptionPane.showMessageDialog(this, response.get("message"));
             dispose();
-            AdminCabinetUserEdit.showEditUserForm(userInfo, response);
+            UserCabinetChangeUserInfo.showEditUserForm(userInfo, response);
 
         }
 
