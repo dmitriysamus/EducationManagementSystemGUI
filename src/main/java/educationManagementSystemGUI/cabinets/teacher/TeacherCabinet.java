@@ -2,8 +2,6 @@ package educationManagementSystemGUI.cabinets.teacher;
 
 import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetAddUserToGroup;
 import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetDropUserFromGroup;
-import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetShowAllGroups;
-import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetShowAllRates;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreateLesson;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreateTaskInLesson;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetRateUserInLesson;
@@ -179,8 +177,10 @@ public class TeacherCabinet extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //Coding Part of Show All Groups button
         if (e.getSource() == groupShowAllGroupsButton) {
-            dispose();
-            TeacherCabinetShowAllGroups.showTeacherForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/groups";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllGroupsGUI(response), "All Group info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Add User to Group button
@@ -197,8 +197,10 @@ public class TeacherCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show All Rates button
         if (e.getSource() == groupRateButton) {
-            dispose();
-            TeacherCabinetShowAllRates.showTeacherForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/groups/rates";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllRatesTeacherGUI(response), "All Rates info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Show All Users button
@@ -216,7 +218,7 @@ public class TeacherCabinet extends JFrame implements ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
-        //Coding Part of Show All Rates button
+        //Coding Part of Change User Info button
         if (e.getSource() == userInfoChangeButton) {
             dispose();
             TeacherCabinetChangeUserInfo.showTeacherForm(userInfo, response);
