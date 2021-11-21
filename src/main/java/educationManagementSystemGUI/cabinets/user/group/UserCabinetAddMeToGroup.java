@@ -95,6 +95,8 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        userAddButton.addActionListener(this);
     }
 
     /**
@@ -131,7 +133,7 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
             String groupNum;
             String student;
             groupNum = groupIdTextField.getText();
-            student = (String) userInfo.get("username");
+            student = userInfo.get("id").toString();
             String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
 
             JSONObject response = HttpPostUtil.httpRequest(url, "{}", (String) this.userInfo.get("accessToken"));
@@ -171,7 +173,7 @@ public class UserCabinetAddMeToGroup extends JFrame implements ActionListener {
             }
 
             dispose();
-            TeacherCabinetAddUserToGroup.showTeacherForm(userInfo, response);
+            UserCabinetAddMeToGroup.addUserToGroupForm(userInfo, response);
 
         }
 
