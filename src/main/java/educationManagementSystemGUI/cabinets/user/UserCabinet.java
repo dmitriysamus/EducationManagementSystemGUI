@@ -2,8 +2,6 @@ package educationManagementSystemGUI.cabinets.user;
 
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetAddMeToGroup;
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetDropMeFromGroup;
-import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowAllGroups;
-import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowMyRateInGroups;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetChangeUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
@@ -173,8 +171,10 @@ public class UserCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show My Rate in Groups button
         if (e.getSource() == groupRateButton) {
-            dispose();
-            UserCabinetShowMyRateInGroups.showUserGroupRateForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/groups/rates/student";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllRatesTeacherGUI(response), "All Rates info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Show User Info button
