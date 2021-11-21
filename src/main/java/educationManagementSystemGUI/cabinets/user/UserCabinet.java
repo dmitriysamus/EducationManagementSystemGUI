@@ -2,12 +2,12 @@ package educationManagementSystemGUI.cabinets.user;
 
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetAddMeToGroup;
 import educationManagementSystemGUI.cabinets.user.group.UserCabinetDropMeFromGroup;
-import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowAllGroups;
-import educationManagementSystemGUI.cabinets.user.group.UserCabinetShowMyRateInGroups;
 import educationManagementSystemGUI.cabinets.user.user.UserCabinetChangeUserInfo;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
+import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -151,8 +151,10 @@ public class UserCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show All Groups button
         if (e.getSource() == groupShowAllGroupsButton) {
-            dispose();
-            UserCabinetShowAllGroups.showUserInfoForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/groups";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllGroupsGUI(response), "All Group info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Add Student to Group button
@@ -169,8 +171,10 @@ public class UserCabinet extends JFrame implements ActionListener {
 
         //Coding Part of Show My Rate in Groups button
         if (e.getSource() == groupRateButton) {
-            dispose();
-            UserCabinetShowMyRateInGroups.showUserGroupRateForm(userInfo, response);
+            String url = "http://localhost:8080/api/auth/groups/rates/student";
+            JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
+            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllRatesTeacherGUI(response), "All Rates info",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Coding Part of Show User Info button
