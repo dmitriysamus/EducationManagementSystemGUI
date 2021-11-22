@@ -32,7 +32,7 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
     JTextField lessonIdTextField = new JTextField();
     JLabel studentIdLabel = new JLabel("Student id");
     JTextField studentIdTextField = new JTextField();
-    JLabel gradeLabel = new JLabel("Grade");
+    JLabel gradeLabel = new JLabel("Grade (pass / fail)");
     JTextField gradeTextField = new JTextField();
 
     JLabel lessonLabel = new JLabel("Working with Lesson");
@@ -158,7 +158,9 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
             TeacherCabinetRateUserInLesson.showTeacherForm(userInfo, response);
 
             if (null != response && response.get("message").equals("Student rated successfully!")) {
-                JOptionPane.showMessageDialog(this, "Student rated successfully!" +
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Student rated successfully!" +
                         "\nLesson id = " + lessonNum +
                         "\nStudent id = " + studentId +
                         "\nGrade = " + grade);
@@ -174,7 +176,8 @@ public class TeacherCabinetRateUserInLesson extends JFrame implements ActionList
                         "Error: User does not exist!",
                         "Teacher error",
                         JOptionPane.ERROR_MESSAGE);
-            } else if (null != response && response.get("message").equals("Error: Student does not exists in the group!")) {
+            } else if (null != response && response.get("message").equals(
+                    "Error: Student does not exists in the group!")) {
                 JOptionPane.showMessageDialog(
                         this,
                         "Error: Student does not exists in the group!",

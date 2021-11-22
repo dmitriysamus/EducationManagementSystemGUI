@@ -142,23 +142,37 @@ public class TeacherCabinetDropUserFromGroup extends JFrame implements ActionLis
             student = userIdTextField.getText();
             String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
 
-            // TODO JSON to DELETE
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
             dispose();
             TeacherCabinetDropUserFromGroup.showTeacherForm(userInfo, response);
 
             if (null != response && response.get("message").equals("Student deleted successfully!")) {
-                JOptionPane.showMessageDialog(this, "Student deleted successfully!" +
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Student deleted successfully!" +
                         "\nUser id = " + student +
                         "\nGroup id = " + groupNum);
-            } else if (null != response && response.get("message").equals("Error: User (user) does not exist in the group!")) {
-                JOptionPane.showMessageDialog(this, "Error: User (user) does not exist in the group!");
+            } else if (null != response && response.get("message").equals(
+                    "Error: User (user) does not exist in the group!")) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: User (user) does not exist in the group!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else if (null != response && response.get("message").equals("Error: Group does not exist!")) {
-                JOptionPane.showMessageDialog(this, "Error: Group does not exist!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Group does not exist!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error: Student can't be deleted!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Student can't be deleted!",
+                        "Teacher error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 

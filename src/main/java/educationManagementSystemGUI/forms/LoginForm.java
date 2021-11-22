@@ -4,6 +4,7 @@ import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
 import educationManagementSystemGUI.cabinets.teacher.TeacherCabinet;
 import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.utils.HttpPostUtil;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -125,26 +126,35 @@ public class LoginForm extends JFrame implements ActionListener {
             String url = "http://localhost:8080/api/auth/login";
             String JSON_STRING = "{\"username\":\"" + userText + "\",\"password\":\"" + pwdText + "\"} ";
             JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, token);
+            try {
+                token = (String) response.get("tokenType");
+                if (null != response && response.get("tokenType").equals("Bearer")) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Login Successful");
 
-            if (null != response && response.get("tokenType").equals("Bearer")) {
-                JOptionPane.showMessageDialog(this, "Login Successful");
-
-                String role = (String) response.getJSONArray("roles").get(0);
-                if (role.equals("ROLE_ADMIN")) {
-                    dispose();
-                    AdminCabinet.showCabinetForm(response, response);
-                } else if (role.equals("ROLE_TEACHER")) {
-                    dispose();
-                    TeacherCabinet.showCabinetForm(
-                            response, response);
-                } else if (role.equals("ROLE_USER")) {
-                    dispose();
-                    UserCabinet.showCabinetForm(
-                            response, response);
+                    String role = (String) response.getJSONArray("roles").get(0);
+                    if (role.equals("ROLE_ADMIN")) {
+                        dispose();
+                        AdminCabinet.showCabinetForm(response, response);
+                    } else if (role.equals("ROLE_TEACHER")) {
+                        dispose();
+                        TeacherCabinet.showCabinetForm(
+                                response, response);
+                    } else if (role.equals("ROLE_USER")) {
+                        dispose();
+                        UserCabinet.showCabinetForm(
+                                response, response);
+                    }
                 }
 
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid Username or Password");
+            } catch (JSONException je) {
+                je.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Invalid Username or Password",
+                        "Login error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
         }

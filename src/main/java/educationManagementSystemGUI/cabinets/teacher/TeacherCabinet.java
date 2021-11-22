@@ -1,16 +1,19 @@
 package educationManagementSystemGUI.cabinets.teacher;
 
+import educationManagementSystemGUI.cabinets.admin.AdminCabinet;
 import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetAddUserToGroup;
 import educationManagementSystemGUI.cabinets.teacher.group.TeacherCabinetDropUserFromGroup;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreateLesson;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetCreateTaskInLesson;
 import educationManagementSystemGUI.cabinets.teacher.lesson.TeacherCabinetRateUserInLesson;
 import educationManagementSystemGUI.cabinets.teacher.user.TeacherCabinetChangeUserInfo;
+import educationManagementSystemGUI.cabinets.user.UserCabinet;
 import educationManagementSystemGUI.forms.LoginForm;
 import educationManagementSystemGUI.utils.DisplayGUI;
 import educationManagementSystemGUI.utils.HttpGetUtil;
 import educationManagementSystemGUI.utils.HttpLogout;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -179,8 +182,22 @@ public class TeacherCabinet extends JFrame implements ActionListener {
         if (e.getSource() == groupShowAllGroupsButton) {
             String url = "http://localhost:8080/api/auth/groups";
             JSONArray response = HttpGetUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
-            JOptionPane.showMessageDialog(this, DisplayGUI.displayAllGroupsGUI(response), "All Group info",
-                    JOptionPane.INFORMATION_MESSAGE);
+
+            try {
+                JPanel jPanel = (JPanel) DisplayGUI.displayAllGroupsGUI(response);
+                JOptionPane.showMessageDialog(this, jPanel, "All Group info",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception je) {
+                je.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Can not show group info!",
+                        "Group error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+
         }
 
         //Coding Part of Add User to Group button

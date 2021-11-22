@@ -145,15 +145,12 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
             String url = "http://localhost:8080/api/auth/groups/lessons/" + lessonNum;
 
             JSONObject response = HttpPostUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
-            dispose();
-            TeacherCabinetCreateTaskInLesson.showTeacherForm(userInfo, response);
-
             if (null != response && response.get("message").equals("Task created successfully!")) {
                 JOptionPane.showMessageDialog(
                         this,
                         "Task created successfully!" +
-                        "\nLesson id = " + lessonNum +
-                        "\nTask name = " + task);
+                                "\nLesson id = " + lessonNum +
+                                "\nTask name = " + task);
             } else if (null != response && response.get("message").equals("Error: Lesson does not exist")) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -167,6 +164,11 @@ public class TeacherCabinetCreateTaskInLesson extends JFrame implements ActionLi
                         "Teacher error",
                         JOptionPane.ERROR_MESSAGE);
             }
+
+            dispose();
+            TeacherCabinetCreateTaskInLesson.showTeacherForm(userInfo, response);
+
+
         }
 
         //Coding Part of BACK button

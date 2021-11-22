@@ -139,8 +139,30 @@ public class RegisterForm extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Register Successful");
                 dispose();
                 LoginForm.showLoginForm();
+            } else if (userText.equals(null) || emailText.equals(null) || pwdText.equals(null)) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Register data can not be blank!",
+                        "Register error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else if (response.get("message").equals("Error: Username is already taken!")){
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Error: Username is already taken!",
+                            "Register error",
+                            JOptionPane.ERROR_MESSAGE);
+            } else if (response.get("message").equals("Error: Email is already in use!")){
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Email is already in use!",
+                        "Register error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, response.get("message"));
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error: Incorrect register data!",
+                        "Register error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
         }

@@ -164,7 +164,8 @@ public class TeacherCabinetChangeUserInfo extends JFrame implements ActionListen
 
             String url = "http://localhost:8080/api/auth/users/" + userIdText;
             JSONObject response = HttpPutUtil.httpRequest(url, JSON_STRING, (String) this.userInfo.get("accessToken"));
-            JOptionPane.showMessageDialog(this, response.get("message"));
+            JOptionPane.showMessageDialog(
+                    this, response.get("message"));
             dispose();
             TeacherCabinetChangeUserInfo.showEditUserForm(userInfo, response);
 
