@@ -95,6 +95,8 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
     public void addActionEvent() {
         logoutButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        userDeleteButton.addActionListener(this);
     }
 
     /**
@@ -131,7 +133,7 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
             String groupNum;
             String student;
             groupNum = groupIdTextField.getText();
-            student = (String) userInfo.get("username");
+            student = userInfo.get("id").toString();
             String url = "http://localhost:8080/api/auth/groups/students/" + groupNum + "/" + student;
 
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
@@ -164,7 +166,7 @@ public class UserCabinetDropMeFromGroup extends JFrame implements ActionListener
             }
 
             dispose();
-            TeacherCabinetDropUserFromGroup.showTeacherForm(userInfo, response);
+            UserCabinetDropMeFromGroup.dropUserFromGroupForm(userInfo, response);
 
         }
         //Coding Part of BACK button
