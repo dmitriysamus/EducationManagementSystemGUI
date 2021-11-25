@@ -135,7 +135,7 @@ public class AdminCabinetUserDelete extends JFrame implements ActionListener {
             JSONObject response = HttpDeleteUtil.httpRequest(url, (String) this.userInfo.get("accessToken"));
             if (null != response && response.get("message").equals("User was deleted successfully!")) {
                 JOptionPane.showMessageDialog(this, "User was deleted successfully!" +
-                        "\nUser id = " + userInfo.get("id"));
+                        "\nUser id = " + userIdText);
             } else {
                 JOptionPane.showMessageDialog(
                         this,
